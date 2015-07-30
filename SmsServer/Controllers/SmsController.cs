@@ -19,7 +19,10 @@ namespace SmsServer.Controllers
         {
             var smsSender = incomingSms.Sender;
             var body = incomingSms.Body;
-            var res = processSms(smsSender, body);
+            var sms = SmsDTO.SmsDTOToSms();
+            context.Smses.Add(sms);
+            context.SaveChanges();
+            var res = processSms(sms);
             var mm = new MassMessageDTO
             {
                 Numbers = new string[] { smsSender },
@@ -28,8 +31,25 @@ namespace SmsServer.Controllers
             return mm;
         }
 
-        private string AnswerPost(string sender, string raceId, string postId, string answerid)
+        private Team FindByNumber(string sender, string raceId) 
         {
+            var id = int.Parse(raceId);
+            return context.Teams.Where(t => t.Race.Id == id).Where(t => t.Members.Any(m => m.Number == sender)).FirstOrDefault();
+        }
+        
+        private string AnswerPost(string sender, string raceId, string postId, string answerid, Sms sms)
+        {
+            var team = FindByNumber(sender);
+            var r = team.Race.Single();
+            var p = r.Posts.Where(p => p.Id == postId).FirstOrDefault();
+            var pa = p.Answers.Where(a => a.Id == answerid).FirstOrDefault();
+            var a = new Answer {
+                AnsweredAt = DateTime.Now,
+                Team = team,
+                PostAnswer = pa,
+                Post = p,
+                Sms = sms
+            }
             return "You answered something";
         }
 
@@ -46,8 +66,11 @@ namespace SmsServer.Controllers
         }
 
         //TODO Error handling when sms data is not in correct format and correct length
-        private string processSms(string sender, string msg)
+        //TODO Convert data here
+        private string processSms(Sms sms)
         {
+            string sender = sms.Sender;
+            string msg = sms.Body;
             var data = msg.Split('#');
             SmsType type = SmsType.Answer;
             string res = "";
@@ -59,7 +82,7 @@ namespace SmsServer.Controllers
                     break;
                 case "ic":
                     type = SmsType.Answer;
-                    res = AnswerPost(sender, data[2], data[3], data[4]);
+                    res = AnswerPost(sender, data[2], data[3], data[4], sms);
                     break;
                 case "ct":
                     type = SmsType.CreateTeam;
