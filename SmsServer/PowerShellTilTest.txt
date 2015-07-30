@@ -1,0 +1,15 @@
+﻿$url = "http://localhost:61373/api/sms"
+#SMS formats:
+#Answer: #ic#løbsid#postid#answerid#
+#Sendpredefined sms: #ac#løbsid#messageid#holdid(optional)#
+#Createteam: #ct#løbsid#holdid#holdnavn(optional)#
+#stopløb: #ac#løbsid#STOP#
+$data = @(
+    @{Sender="+4512345678"; Body="#ic#1#2#4#"},
+    @{Sender="+4512345678"; Body="#ac#1#2#"},
+    @{Sender="+4512345678"; Body="#ac#1#2#4#"},
+    @{Sender="+4512345678"; Body="#ct#1#2#hest#"},
+    @{Sender="+4512345678"; Body="#ct#1#2#"}
+    )
+
+$data |%{iwr -Uri $url -Method Post -Body $_ } | select -Property StatusCode, StatusDescription, Content
