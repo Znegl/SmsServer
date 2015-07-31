@@ -16,7 +16,7 @@ namespace SmsServer.Models
         public string WrongAnswerText { get; set; }
 
         public virtual PostAnswer CorrectAnswer { get; set; }
-        public virtual IEnumerable<PostAnswer> Answers { get; set; }
+        public virtual List<PostAnswer> Answers { get; set; }
     }
 
     public class PostAnswer
@@ -38,7 +38,7 @@ namespace SmsServer.Models
         //Guid from application user.
         public string Owner { get; set; }
 
-        public virtual IEnumerable<Post> Posts { get; set; }
+        public virtual List<Post> Posts { get; set; }
     }
 
     public class PredefinedSms
@@ -64,11 +64,16 @@ namespace SmsServer.Models
 
     public class Team
     {
+        public Team()
+        {
+            if (Members == null)
+                Members = new List<TeamMember>();
+        }
         public int Id { get; set; }
         public string TeamName { get; set; }
 
         public virtual Race Race { get; set; }
-        public virtual IEnumerable<TeamMember> Members { get; set; }
+        public virtual List<TeamMember> Members { get; set; }
     }
 
     public class Answer

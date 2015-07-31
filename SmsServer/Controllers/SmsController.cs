@@ -12,7 +12,7 @@ namespace SmsServer.Controllers
     {
         private SmsServerContext context = new SmsServerContext();
 
-        private enum SmsType { Answer, CreateTeam, Admin};
+        private enum SmsType { Answer, CreateTeam, Admin };
 
         [HttpPost]
         public MassMessageDTO HandleIncomingSms([FromBody]SmsDTO incomingSms)
@@ -31,16 +31,20 @@ namespace SmsServer.Controllers
             return mm;
         }
 
-        private Team FindByNumber(string sender, string raceId) 
+        private Team FindByNumber(string sender, string raceId)
         {
             var id = int.Parse(raceId);
             return context.Teams.Where(t => t.Race.Id == id).Where(t => t.Members.Any(m => m.Number == sender)).FirstOrDefault();
         }
-        
+
         private string AnswerPost(string sender, string raceId, string postId, string answerid, Sms sms)
         {
             var team = FindByNumber(sender, raceId);
-            var r = team.Race;
+            Race r = null;
+            if (team != null)
+                r = team.Race;
+            else
+                r = context.Races.Find(int.Parse(raceId));
             var p = r.Posts.Where(q => q.Id == int.Parse(postId)).FirstOrDefault();
             var pa = p.Answers.Where(k => k.Id == int.Parse(answerid)).FirstOrDefault();
             var a = new Answer
@@ -51,6 +55,8 @@ namespace SmsServer.Controllers
                 Post = p,
                 Sms = sms
             };
+            context.Answers.Add(a);
+            context.SaveChanges();
             return "You answered something";
         }
 
@@ -61,9 +67,43 @@ namespace SmsServer.Controllers
 
         private string CreateTeam(string sender, List<string> data)
         {
+            var teamname = data[1];
             if (!string.IsNullOrEmpty(data[2]))
-                return "NAME Creating team with name: " + data[2];
-            return "ID Createing team with id: " + data[1];
+                teamname = data[2];
+            var race = context.Races.Find(int.Parse(data[0]));
+            if (race == null)
+                return "LØB IKKE FUNDET";
+            var team = context.Teams.Find(int.Parse(data[1]));
+            if (team == null)
+            {
+                team = new Team
+                {
+                    Race = race,
+                    TeamName = teamname
+                };
+                var tm = new TeamMember
+                {
+                    Number = sender
+                };
+                context.TeamMembers.Add(tm);
+                context.SaveChanges();
+                context.Teams.Add(team);
+                context.SaveChanges();
+                team.Members.Add(tm);
+                context.SaveChanges();
+            }
+            else
+            {
+                var tm = new TeamMember
+                {
+                    Number = sender
+                };
+                context.TeamMembers.Add(tm);
+                context.SaveChanges();
+                team.Members.Add(tm);
+                context.SaveChanges();
+            }
+            return "Hold oprettet";
         }
 
         //TODO Error handling when sms data is not in correct format and correct length

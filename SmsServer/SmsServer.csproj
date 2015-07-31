@@ -183,6 +183,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostAnswersController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RacesController.cs" />
     <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,6 +193,14 @@
     <Compile Include="Migrations\201507301813537_InitialCreate.cs" />
     <Compile Include="Migrations\201507301813537_InitialCreate.Designer.cs">
       <DependentUpon>201507301813537_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507311306206_ChagedToList.cs" />
+    <Compile Include="Migrations\201507311306206_ChagedToList.Designer.cs">
+      <DependentUpon>201507311306206_ChagedToList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507311347479_AddedCtor.cs" />
+    <Compile Include="Migrations\201507311347479_AddedCtor.Designer.cs">
+      <DependentUpon>201507311347479_AddedCtor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -259,6 +270,21 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Races\Create.cshtml" />
+    <Content Include="Views\Races\Delete.cshtml" />
+    <Content Include="Views\Races\Details.cshtml" />
+    <Content Include="Views\Races\Edit.cshtml" />
+    <Content Include="Views\Races\Index.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\PostAnswers\Create.cshtml" />
+    <Content Include="Views\PostAnswers\Delete.cshtml" />
+    <Content Include="Views\PostAnswers\Details.cshtml" />
+    <Content Include="Views\PostAnswers\Edit.cshtml" />
+    <Content Include="Views\PostAnswers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +300,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201507301813537_InitialCreate.resx">
       <DependentUpon>201507301813537_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507311306206_ChagedToList.resx">
+      <DependentUpon>201507311306206_ChagedToList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507311347479_AddedCtor.resx">
+      <DependentUpon>201507311347479_AddedCtor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

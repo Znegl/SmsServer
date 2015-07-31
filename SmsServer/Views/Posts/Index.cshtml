@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SmsServer.Models.Post>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Placement)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CorrectAnswerText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WrongAnswerText)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Placement)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CorrectAnswerText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WrongAnswerText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Opret Svar", "CreateAnswer", new { id = item.Id }) |
+            @Html.ActionLink("Se svarmuligheder", "ListAnswers", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
