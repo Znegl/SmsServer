@@ -19,7 +19,7 @@ namespace SmsServer.Controllers
         {
             var smsSender = incomingSms.Sender;
             var body = incomingSms.Body;
-            var sms = SmsDTO.SmsDTOToSms();
+            var sms = incomingSms.SmsDTOToSms();
             context.Smses.Add(sms);
             context.SaveChanges();
             var res = processSms(sms);
@@ -39,17 +39,18 @@ namespace SmsServer.Controllers
         
         private string AnswerPost(string sender, string raceId, string postId, string answerid, Sms sms)
         {
-            var team = FindByNumber(sender);
-            var r = team.Race.Single();
-            var p = r.Posts.Where(p => p.Id == postId).FirstOrDefault();
-            var pa = p.Answers.Where(a => a.Id == answerid).FirstOrDefault();
-            var a = new Answer {
+            var team = FindByNumber(sender, raceId);
+            var r = team.Race;
+            var p = r.Posts.Where(q => q.Id == int.Parse(postId)).FirstOrDefault();
+            var pa = p.Answers.Where(k => k.Id == int.Parse(answerid)).FirstOrDefault();
+            var a = new Answer
+            {
                 AnsweredAt = DateTime.Now,
                 Team = team,
-                PostAnswer = pa,
+                ChosenAnswer = pa,
                 Post = p,
                 Sms = sms
-            }
+            };
             return "You answered something";
         }
 
