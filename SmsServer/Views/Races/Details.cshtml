@@ -51,16 +51,26 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Owner)
+            @Html.DisplayNameFor(model => model.GatewayCode)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Owner)
+            @Html.DisplayFor(model => model.GatewayCode)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.GatewayNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GatewayNumber)
+        </dd>
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Opret post", "CreatePost", new { id = Model.Id }) |
+    @Html.ActionLink("Se poster", "ListPosts", new { id = Model.Id }) |
+    @Html.ActionLink("Print poster", "ShowPosts", new { id = Model.Id, printPosts = true }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

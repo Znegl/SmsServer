@@ -10,10 +10,14 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
+    [Authorize]
     public class PostsController : Controller
     {
         private SmsServerContext db = new SmsServerContext();
-
+        private string GetUserNameFromRequest()
+        {
+            return User.Identity.Name.ToString();
+        }
         // GET: Posts
         public ActionResult Index()
         {
@@ -29,7 +33,8 @@ namespace SmsServer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Post post = db.Posts.Find(id);
-            if (post == null)
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (post == null || !haveRace)
             {
                 return HttpNotFound();
             }
@@ -42,6 +47,12 @@ namespace SmsServer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            Post post = db.Posts.Find(id);
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (post == null || !haveRace)
+            {
+                return HttpNotFound();
+            }
             Session["PostID"] = id;
             return RedirectToAction("Create", "PostAnswers");
         }
@@ -51,6 +62,12 @@ namespace SmsServer.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (post == null || !haveRace)
+            {
+                return HttpNotFound();
             }
             Session["PostID"] = id;
             return RedirectToAction("Index", "PostAnswers");
@@ -71,12 +88,15 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Posts.Add(post);
-                db.SaveChanges();
                 var r = db.Races.Find(Session["RaceID"]);
-                r.Posts.Add(post);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (r.Owner == GetUserNameFromRequest())
+                {
+                    db.Posts.Add(post);
+                    db.SaveChanges();
+                    r.Posts.Add(post);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(post);
@@ -90,7 +110,8 @@ namespace SmsServer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Post post = db.Posts.Find(id);
-            if (post == null)
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (post == null || !haveRace)
             {
                 return HttpNotFound();
             }
@@ -106,9 +127,13 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(post).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var r = db.Races.Find(Session["RaceID"]);
+                if (r.Owner == GetUserNameFromRequest())
+                {
+                    db.Entry(post).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(post);
         }
@@ -121,7 +146,8 @@ namespace SmsServer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Post post = db.Posts.Find(id);
-            if (post == null)
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (post == null || !haveRace)
             {
                 return HttpNotFound();
             }
@@ -134,8 +160,12 @@ namespace SmsServer.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Post post = db.Posts.Find(id);
-            db.Posts.Remove(post);
-            db.SaveChanges();
+            var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
+            if (haveRace)
+            {
+                db.Posts.Remove(post);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

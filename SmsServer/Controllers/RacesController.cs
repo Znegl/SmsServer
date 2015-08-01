@@ -10,24 +10,51 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
+    //TODO Make sure that edit, create and delete post also check for user
+    [Authorize]
     public class RacesController : Controller
     {
         private SmsServerContext db = new SmsServerContext();
 
+        private string GetUserNameFromRequest()
+        {
+            return User.Identity.Name.ToString();
+        }
+
+        private List<Race> GetRaceForUser(int? id)
+        {
+            var user = GetUserNameFromRequest();
+            if (id == null)
+            {
+                return db.Races.Where(r => r.Owner == user).ToList();
+            }
+            else
+            {
+                var race = db.Races.Find(id);
+                if (race == null || race.Owner != user)
+                {
+                    return null;
+                }
+                return new List<Race> { race };
+            }
+        }
+
         // GET: Races
         public ActionResult Index()
         {
-            return View(db.Races.ToList());
+            var user = GetUserNameFromRequest();
+            return View(GetRaceForUser(null));
         }
 
         // GET: Races/Details/5
         public ActionResult Details(int? id)
         {
+            var user = GetUserNameFromRequest();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Race race = db.Races.Find(id);
+            Race race = GetRaceForUser(id).FirstOrDefault();
             if (race == null)
             {
                 return HttpNotFound();
@@ -35,13 +62,16 @@ namespace SmsServer.Controllers
             return View(race);
         }
 
-        public ActionResult ShowPosts(int? id)
+        public ActionResult ShowPosts(int? id, bool printPosts = false)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //TODO Make sure that it is only the user that own the run that can see it
-            var race = db.Races.Find(id);
-
+            Race race = GetRaceForUser(id).FirstOrDefault();
+            if (race == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PrintPosts = printPosts;
             return View(race);
         }
 
@@ -50,6 +80,11 @@ namespace SmsServer.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Race race = GetRaceForUser(id).FirstOrDefault();
+            if (race == null)
+            {
+                return HttpNotFound();
             }
             Session["RaceID"] = id;
             return RedirectToAction("Create", "Posts");
@@ -60,6 +95,11 @@ namespace SmsServer.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Race race = GetRaceForUser(id).FirstOrDefault();
+            if (race == null)
+            {
+                return HttpNotFound();
             }
             Session["RaceID"] = id;
             return RedirectToAction("Index", "Posts");
@@ -75,17 +115,19 @@ namespace SmsServer.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken] //Remembefr to put these in later: Start,End,
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,ContactNumber")] Race race)
+        [ValidateAntiForgeryToken] //Remembefr to put these in later: 
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber")] Race race)
         {
             //race.Owner = User.Identity.Name.ToString();
-            race.Start = DateTime.Now;
-            race.End = DateTime.Now.AddDays(1);
+            //race.Start = DateTime.Now;
+            //race.End = DateTime.Now.AddDays(1);
+            race.Owner = GetUserNameFromRequest();
+            race.GatewayCode = (new Guid()).ToString().Substring(0, 10);
             if (ModelState.IsValid)
             {
                 db.Races.Add(race);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = race.Id });
             }
 
             return View(race);
@@ -98,7 +140,7 @@ namespace SmsServer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Race race = db.Races.Find(id);
+            Race race = GetRaceForUser(id).FirstOrDefault();
             if (race == null)
             {
                 return HttpNotFound();
@@ -129,7 +171,7 @@ namespace SmsServer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Race race = db.Races.Find(id);
+            Race race = GetRaceForUser(id).FirstOrDefault();
             if (race == null)
             {
                 return HttpNotFound();
