@@ -1,0 +1,30 @@
+﻿@model SmsServer.Models.Race
+
+@{
+    ViewBag.Title = "ShowPosts";
+}
+
+<h2>ShowPosts</h2>
+
+@foreach (var item in Model.Posts) {
+    <div class="Post">
+        <div class="PostTitle">
+            @item.Title
+        </div>
+        <div class="PostText">
+            @item.Text
+        </div>
+        @foreach (var ans in item.Answers)
+        {
+            <div class="answer">
+                @{ 
+                    var answerText = "#ic#" + Model.Id + "#" + item.Id + "#" + ans.Id + "#";
+                    var completeText = "smsto:" + Model.GatewayNumber + ":" + answerText;
+                }              
+                @Html.GenerateRelayQrCode("hest", completeText)
+                Send: @answerText to @Model.GatewayNumber
+            </div>
+        }
+    </div>
+}
+

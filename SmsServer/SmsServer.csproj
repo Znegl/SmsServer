@@ -122,6 +122,14 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="zxing, Version=0.14.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.14.0.1\lib\net40\zxing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.14.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.14.0.1\lib\net40\zxing.presentation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -190,6 +198,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlExtentions.cs" />
     <Compile Include="Migrations\201507301813537_InitialCreate.cs" />
     <Compile Include="Migrations\201507301813537_InitialCreate.Designer.cs">
       <DependentUpon>201507301813537_InitialCreate.cs</DependentUpon>
@@ -201,6 +210,10 @@
     <Compile Include="Migrations\201507311347479_AddedCtor.cs" />
     <Compile Include="Migrations\201507311347479_AddedCtor.Designer.cs">
       <DependentUpon>201507311347479_AddedCtor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508011245109_AddedRaceInfo.cs" />
+    <Compile Include="Migrations\201508011245109_AddedRaceInfo.Designer.cs">
+      <DependentUpon>201508011245109_AddedRaceInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -285,6 +298,7 @@
     <Content Include="Views\PostAnswers\Details.cshtml" />
     <Content Include="Views\PostAnswers\Edit.cshtml" />
     <Content Include="Views\PostAnswers\Index.cshtml" />
+    <Content Include="Views\Races\ShowPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -306,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507311347479_AddedCtor.resx">
       <DependentUpon>201507311347479_AddedCtor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508011245109_AddedRaceInfo.resx">
+      <DependentUpon>201508011245109_AddedRaceInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

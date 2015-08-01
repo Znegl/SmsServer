@@ -34,6 +34,8 @@ namespace SmsServer.Models
         public DateTime End { get; set; }
         public string Contact { get; set; }
         public string ContactNumber { get; set; }
+        public string GatewayNumber { get; set; }
+        public string GatewayCode { get; set; }
 
         //Guid from application user.
         public string Owner { get; set; }

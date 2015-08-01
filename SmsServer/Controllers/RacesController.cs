@@ -35,6 +35,16 @@ namespace SmsServer.Controllers
             return View(race);
         }
 
+        public ActionResult ShowPosts(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //TODO Make sure that it is only the user that own the run that can see it
+            var race = db.Races.Find(id);
+
+            return View(race);
+        }
+
         public ActionResult CreatePost(int? id)
         {
             if (id == null)
