@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -20,6 +21,8 @@ namespace SmsServer.Models
         public virtual List<PostAnswer> Answers { get; set; }
         public virtual Race Race { get; set; }
         public int RaceID { get; set; }
+        [MaxLength]
+        public byte[] Image { get; set; }
     }
 
     public class PostAnswer
@@ -29,6 +32,8 @@ namespace SmsServer.Models
         public string Text { get; set; }
         public virtual Post Post { get; set; }
         public int PostID { get; set; }
+        [MaxLength]
+        public byte[] Image { get; set; }
     }
 
     public class Race
