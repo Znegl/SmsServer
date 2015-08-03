@@ -216,6 +216,18 @@
     <Compile Include="Migrations\201508011245109_AddedRaceInfo.Designer.cs">
       <DependentUpon>201508011245109_AddedRaceInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508031324350_AddedRaceAsNavPropInPost.cs" />
+    <Compile Include="Migrations\201508031324350_AddedRaceAsNavPropInPost.Designer.cs">
+      <DependentUpon>201508031324350_AddedRaceAsNavPropInPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508031325131_AddedRaceID.cs" />
+    <Compile Include="Migrations\201508031325131_AddedRaceID.Designer.cs">
+      <DependentUpon>201508031325131_AddedRaceID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508031326483_AddedNavPropToPostAnswer.cs" />
+    <Compile Include="Migrations\201508031326483_AddedNavPropToPostAnswer.Designer.cs">
+      <DependentUpon>201508031326483_AddedNavPropToPostAnswer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Extenstions.cs" />
@@ -324,6 +336,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508011245109_AddedRaceInfo.resx">
       <DependentUpon>201508011245109_AddedRaceInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508031324350_AddedRaceAsNavPropInPost.resx">
+      <DependentUpon>201508031324350_AddedRaceAsNavPropInPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508031325131_AddedRaceID.resx">
+      <DependentUpon>201508031325131_AddedRaceID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508031326483_AddedNavPropToPostAnswer.resx">
+      <DependentUpon>201508031326483_AddedNavPropToPostAnswer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

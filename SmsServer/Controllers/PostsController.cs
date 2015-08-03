@@ -10,6 +10,7 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
+
     [Authorize]
     public class PostsController : Controller
     {

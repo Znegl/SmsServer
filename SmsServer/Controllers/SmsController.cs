@@ -18,7 +18,6 @@ namespace SmsServer.Controllers
         [SmsGatewayAuthorizationFilter]
         public MassMessageDTO HandleIncomingSms([FromBody]SmsDTO incomingSms)
         {
-            //TODO Only save if user is ok
             var smsSender = incomingSms.Sender;
             var body = incomingSms.Body;
             var sms = incomingSms.SmsDTOToSms();
@@ -109,7 +108,6 @@ namespace SmsServer.Controllers
         }
 
         //TODO Error handling when sms data is not in correct format and correct length
-        //TODO Convert data here
         private string processSms(Sms sms)
         {
             string sender = sms.Sender;

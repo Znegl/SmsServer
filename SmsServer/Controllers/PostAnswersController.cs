@@ -10,6 +10,7 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
+
     public class PostAnswersController : Controller
     {
         private SmsServerContext db = new SmsServerContext();
@@ -50,9 +51,14 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
+                var p = db.Posts.Find(Session["PostID"]);
+                var race = db.Races.Find(Session["RaceID"]);
+                if (p.Race != race)
+                {
+                    return HttpNotFound();
+                }
                 db.PostAnswers.Add(postAnswer);
                 db.SaveChanges();
-                var p = db.Posts.Find(Session["PostID"]);
                 p.Answers.Add(postAnswer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -85,6 +91,12 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
+                var p = db.Posts.Find(Session["PostID"]);
+                var race = db.Races.Find(Session["RaceID"]);
+                if (p.Race != race)
+                {
+                    return HttpNotFound();
+                }
                 db.Entry(postAnswer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -112,6 +124,12 @@ namespace SmsServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var p = db.Posts.Find(Session["PostID"]);
+            var race = db.Races.Find(Session["RaceID"]);
+            if (p.Race != race)
+            {
+                return HttpNotFound();
+            }
             PostAnswer postAnswer = db.PostAnswers.Find(id);
             db.PostAnswers.Remove(postAnswer);
             db.SaveChanges();

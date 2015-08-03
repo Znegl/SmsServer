@@ -10,7 +10,6 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
-    //TODO Make sure that edit, create and delete post also check for user
     [Authorize]
     public class RacesController : Controller
     {
@@ -157,6 +156,11 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
+                Race raceFromDb = GetRaceForUser(race.Id).FirstOrDefault();
+                if (raceFromDb == null)
+                {
+                    return HttpNotFound();
+                }
                 db.Entry(race).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -185,6 +189,11 @@ namespace SmsServer.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Race race = db.Races.Find(id);
+            Race raceFromDb = GetRaceForUser(race.Id).FirstOrDefault();
+            if (raceFromDb != race)
+            {
+                return HttpNotFound();
+            }
             db.Races.Remove(race);
             db.SaveChanges();
             return RedirectToAction("Index");
