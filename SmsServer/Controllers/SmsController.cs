@@ -15,8 +15,10 @@ namespace SmsServer.Controllers
         private enum SmsType { Answer, CreateTeam, Admin };
 
         [HttpPost]
+        [SmsGatewayAuthorizationFilter]
         public MassMessageDTO HandleIncomingSms([FromBody]SmsDTO incomingSms)
         {
+            //TODO Only save if user is ok
             var smsSender = incomingSms.Sender;
             var body = incomingSms.Body;
             var sms = incomingSms.SmsDTOToSms();

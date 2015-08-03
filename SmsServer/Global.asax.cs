@@ -14,6 +14,7 @@ namespace SmsServer
     {
         protected void Application_Start()
         {
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new CustomLoginHandler());
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

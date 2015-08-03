@@ -122,7 +122,7 @@ namespace SmsServer.Controllers
             //race.Start = DateTime.Now;
             //race.End = DateTime.Now.AddDays(1);
             race.Owner = GetUserNameFromRequest();
-            race.GatewayCode = (new Guid()).ToString().Substring(0, 10);
+            race.GatewayCode = Guid.NewGuid().ToString().Substring(0, 10);//.Replace('-','X');
             if (ModelState.IsValid)
             {
                 db.Races.Add(race);
