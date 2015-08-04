@@ -19,14 +19,24 @@
         <div class="PostText">
             @item.Text
         </div>
+        <div class="PostImage">
+            @if (item.Image != null)
+                {
+                <img width="300" src="@Url.Action("GetImage", "PostAnswer", new { id=item.Id})" />
+            }
+        </div>
         @foreach (var ans in item.Answers)
         {
             <div class="answer">
-                @{ 
-                    var answerText = "#ic#" + Model.Id + "#" + item.Id + "#" + ans.Id + "#";
-                    var completeText = "smsto:" + Model.GatewayNumber + ":" + answerText;
-                }              
-                @Html.GenerateRelayQrCode("hest", completeText)
+                @if (ans.Image != null)
+                {
+                    <img width="300" src="@Url.Action("GetImage", "PostAnswer", new { id=ans.Id})" />
+                }
+                @{
+                        var answerText = "#ic#" + Model.Id + "#" + item.Id + "#" + ans.Id + "#";
+                        var completeText = "smsto:" + Model.GatewayNumber + ":" + answerText;
+                    }
+                    @Html.GenerateRelayQrCode("hest", completeText)
                 Send: @answerText to @Model.GatewayNumber
             </div>
         }

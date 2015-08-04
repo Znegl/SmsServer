@@ -47,7 +47,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer)
+        public ActionResult Create([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +57,13 @@ namespace SmsServer.Controllers
                 {
                     return HttpNotFound();
                 }
+                if (image != null)
+                {
+                    postAnswer.ImageMimeType = image.ContentType;
+                    postAnswer.Image = new byte[image.ContentLength];
+                    image.InputStream.Read(postAnswer.Image, 0, image.ContentLength);
+                }
+
                 db.PostAnswers.Add(postAnswer);
                 db.SaveChanges();
                 p.Answers.Add(postAnswer);
@@ -87,7 +94,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer)
+        public ActionResult Edit([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -97,6 +104,14 @@ namespace SmsServer.Controllers
                 {
                     return HttpNotFound();
                 }
+                if (image != null)
+                {
+                    postAnswer.ImageMimeType = image.ContentType;
+                    postAnswer.Image = new byte[image.ContentLength];
+                    image.InputStream.Read(postAnswer.Image, 0, image.ContentLength);
+                }
+
+
                 db.Entry(postAnswer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -134,6 +149,18 @@ namespace SmsServer.Controllers
             db.PostAnswers.Remove(postAnswer);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public FileContentResult GetImage(int id)
+        {
+            PostAnswer postAnswer = db.PostAnswers.Find(id);
+            if (postAnswer != null)
+            {
+                return File(postAnswer.Image, postAnswer.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected override void Dispose(bool disposing)

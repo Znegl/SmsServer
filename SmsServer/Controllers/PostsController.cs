@@ -85,13 +85,19 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text,Placement,CorrectAnswerText,WrongAnswerText")] Post post)
+        public ActionResult Create([Bind(Include = "Id,Title,Text,Placement,CorrectAnswerText,WrongAnswerText")] Post post, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
                 var r = db.Races.Find(Session["RaceID"]);
                 if (r.Owner == GetUserNameFromRequest())
                 {
+                    if (image != null)
+                    {
+                        post.ImageMimeType = image.ContentType;
+                        post.Image = new byte[image.ContentLength];
+                        image.InputStream.Read(post.Image, 0, image.ContentLength);
+                    }
                     db.Posts.Add(post);
                     db.SaveChanges();
                     r.Posts.Add(post);
@@ -124,13 +130,20 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text,Placement,CorrectAnswerText,WrongAnswerText")] Post post)
+        public ActionResult Edit([Bind(Include = "Id,Title,Text,Placement,CorrectAnswerText,WrongAnswerText")] Post post, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
                 var r = db.Races.Find(Session["RaceID"]);
                 if (r.Owner == GetUserNameFromRequest())
                 {
+                    if (image != null)
+                    {
+                        post.ImageMimeType = image.ContentType;
+                        post.Image = new byte[image.ContentLength];
+                        image.InputStream.Read(post.Image, 0, image.ContentLength);
+                    }
+
                     db.Entry(post).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -168,6 +181,19 @@ namespace SmsServer.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        public FileContentResult GetImage(int id)
+        {
+            Post post= db.Posts.Find(id);
+            if (post != null)
+            {
+                return File(post.Image, post.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected override void Dispose(bool disposing)

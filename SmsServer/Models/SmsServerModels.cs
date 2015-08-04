@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SmsServer.Models
 {
@@ -23,6 +24,8 @@ namespace SmsServer.Models
         public int RaceID { get; set; }
         [MaxLength]
         public byte[] Image { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public string ImageMimeType { get; set; }
     }
 
     public class PostAnswer
@@ -34,6 +37,8 @@ namespace SmsServer.Models
         public int PostID { get; set; }
         [MaxLength]
         public byte[] Image { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public string ImageMimeType { get; set; }
     }
 
     public class Race

@@ -58,7 +58,7 @@ namespace SmsServer.Controllers
             };
             context.Answers.Add(a);
             context.SaveChanges();
-            return "You answered something";
+            return (pa == p.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
         }
 
         private string ProcessAdmin(string[] data)
