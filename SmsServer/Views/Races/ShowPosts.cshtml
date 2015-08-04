@@ -22,7 +22,7 @@
         <div class="PostImage">
             @if (item.Image != null)
                 {
-                <img width="300" src="@Url.Action("GetImage", "PostAnswer", new { id=item.Id})" />
+                <img width="300" src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
             }
         </div>
         @foreach (var ans in item.Answers)

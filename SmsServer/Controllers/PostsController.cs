@@ -10,7 +10,7 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
-
+    //TODO Redirect hvis raceid ikke sat
     [Authorize]
     public class PostsController : Controller
     {
@@ -98,9 +98,9 @@ namespace SmsServer.Controllers
                         post.Image = new byte[image.ContentLength];
                         image.InputStream.Read(post.Image, 0, image.ContentLength);
                     }
+                    r.Posts.Add(post);
                     db.Posts.Add(post);
                     db.SaveChanges();
-                    r.Posts.Add(post);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
