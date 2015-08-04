@@ -101,7 +101,6 @@ namespace SmsServer.Controllers
                     r.Posts.Add(post);
                     db.Posts.Add(post);
                     db.SaveChanges();
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }

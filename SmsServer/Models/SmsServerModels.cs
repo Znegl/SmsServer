@@ -19,9 +19,12 @@ namespace SmsServer.Models
         public string WrongAnswerText { get; set; }
 
         public virtual PostAnswer CorrectAnswer { get; set; }
+
         public virtual List<PostAnswer> Answers { get; set; }
+
         public virtual Race Race { get; set; }
         public int RaceID { get; set; }
+
         [MaxLength]
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]
@@ -33,8 +36,10 @@ namespace SmsServer.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+
         public virtual Post Post { get; set; }
         public int PostID { get; set; }
+
         [MaxLength]
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]

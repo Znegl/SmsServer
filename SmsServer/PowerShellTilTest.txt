@@ -17,3 +17,9 @@ $data = @(
 
 $data |%{iwr -Headers $headers -Uri $url -Method Post -Body $_ } | select -Property StatusCode, StatusDescription, Content
 #iwr -Headers $headers -Uri $url -Method Post -Body @{Sender="+4512345678"; Body="#ac#1#2#"}
+
+#Delete localdb
+#C:\Users\bonus>sqllocaldb i
+#C:\Users\bonus>sqllocaldb p MSSQLLocalDB
+#C:\Users\bonus>sqllocaldb d MSSQLLocalDB
+#C:\Users\bonus>sqllocaldb c MSSQLLocalDB

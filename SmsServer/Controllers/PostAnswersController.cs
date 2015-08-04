@@ -18,7 +18,12 @@ namespace SmsServer.Controllers
         // GET: PostAnswers
         public ActionResult Index()
         {
-            return View(db.PostAnswers.ToList());
+            if (Session["PostID"] != null)
+            {
+                var postId = int.Parse(Session["PostID"].ToString());
+                return View(db.PostAnswers.Where(a => a.PostID == postId).ToList());
+            }
+            return View(new List<PostAnswer>());
         }
 
         // GET: PostAnswers/Details/5
@@ -64,9 +69,9 @@ namespace SmsServer.Controllers
                     image.InputStream.Read(postAnswer.Image, 0, image.ContentLength);
                 }
 
-                db.PostAnswers.Add(postAnswer);
-                db.SaveChanges();
                 p.Answers.Add(postAnswer);
+                postAnswer.Post = p;
+                db.PostAnswers.Add(postAnswer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
