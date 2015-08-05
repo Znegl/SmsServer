@@ -9,6 +9,14 @@
     <text>Posterne printes</text>
 }
 
+<h2>Opret hold</h2>
+@{
+    var createTeam = "#ct#" + Model.Id + "#" + "<HOLD ID>" + "#" + "<HOLD NAVN>"+ "#";
+    var createTeamComplete = "smsto:" + Model.GatewayNumber + ":" + createTeam;
+}
+@Html.GenerateRelayQrCode("hest", createTeamComplete)
+Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
+
 <h2>ShowPosts</h2>
 
 @foreach (var item in Model.Posts) {
