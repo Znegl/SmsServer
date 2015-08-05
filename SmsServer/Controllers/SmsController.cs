@@ -54,7 +54,8 @@ namespace SmsServer.Controllers
                 Team = team,
                 ChosenAnswer = pa,
                 Post = p,
-                Sms = sms
+                Sms = sms,
+                CorrectAnswerChosen = pa == p.CorrectAnswer
             };
             context.Answers.Add(a);
             context.SaveChanges();

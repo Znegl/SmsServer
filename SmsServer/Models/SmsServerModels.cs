@@ -103,6 +103,8 @@ namespace SmsServer.Models
         public int Id { get; set; }
         public DateTime AnsweredAt { get; set; }
 
+        public bool CorrectAnswerChosen { get; set; }
+
         public virtual Team Team { get; set; }
         public virtual PostAnswer ChosenAnswer { get; set; }
         public virtual Sms Sms { get; set; }

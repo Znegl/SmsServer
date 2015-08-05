@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201508040811351_AddedMimeType.Designer.cs">
       <DependentUpon>201508040811351_AddedMimeType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508051340229_AddedCorrectAnswerMarkerToAnswer.cs" />
+    <Compile Include="Migrations\201508051340229_AddedCorrectAnswerMarkerToAnswer.Designer.cs">
+      <DependentUpon>201508051340229_AddedCorrectAnswerMarkerToAnswer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Extenstions.cs" />
@@ -359,6 +363,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508040811351_AddedMimeType.resx">
       <DependentUpon>201508040811351_AddedMimeType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508051340229_AddedCorrectAnswerMarkerToAnswer.resx">
+      <DependentUpon>201508051340229_AddedCorrectAnswerMarkerToAnswer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
