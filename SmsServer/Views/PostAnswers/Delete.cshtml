@@ -26,6 +26,13 @@
         <dd>
             @Html.DisplayFor(model => model.Text)
         </dd>
+        @if (Model.Image != null)
+        {
+            <dt>Billede</dt>
+            <dd>
+                <img width="300" src="@Url.Action("GetImage", "PostAnswers", new { id=Model.Id})" />
+            </dd>
+        }
 
     </dl>
 

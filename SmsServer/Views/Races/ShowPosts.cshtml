@@ -38,7 +38,7 @@ Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
             <div class="answer">
                 @if (ans.Image != null)
                 {
-                    <img width="300" src="@Url.Action("GetImage", "PostAnswer", new { id=ans.Id})" />
+                    <img width="300" src="@Url.Action("GetImage", "PostAnswers", new { id=ans.Id})" />
                 }
                 @{
                         var answerText = "#ic#" + Model.Id + "#" + item.Id + "#" + ans.Id + "#";
