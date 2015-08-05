@@ -41,7 +41,7 @@ namespace SmsServer.Controllers
             }
             return View(post);
         }
-
+        
         public ActionResult CreateAnswer(int? id)
         {
             if (id == null)
@@ -58,7 +58,7 @@ namespace SmsServer.Controllers
             return RedirectToAction("Create", "PostAnswers");
         }
 
-        public ActionResult ListPosts(int? id)
+        public ActionResult ListAnswers(int? id)
         {
             if (id == null)
             {
