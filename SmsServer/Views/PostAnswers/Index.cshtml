@@ -29,6 +29,16 @@
             @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
+            @if (item.Post.CorrectAnswer == item)
+            {
+                @:This is the correct answer
+            }
+            else
+            {
+                @Html.ActionLink("Sæt som korrekt svar", "SetCorrectAnswer", new { id = item.Id })
+            }
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })

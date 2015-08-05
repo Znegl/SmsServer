@@ -41,6 +41,18 @@ namespace SmsServer.Controllers
             return View(postAnswer);
         }
 
+        public ActionResult SetCorrectAnswer(int? id)
+        {
+            PostAnswer postAnswer = db.PostAnswers.Find(id);
+            if (postAnswer == null)
+            {
+                return HttpNotFound();
+            }
+            postAnswer.Post.CorrectAnswer = postAnswer;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         // GET: PostAnswers/Create
         public ActionResult Create()
         {
