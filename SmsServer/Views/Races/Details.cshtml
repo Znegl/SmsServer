@@ -1,7 +1,8 @@
 ﻿@model SmsServer.Models.Race
-
+@using SmsServer.Models
 @{
     ViewBag.Title = "Details";
+    var answers = (List<Answer>)ViewBag.AnswersForRace;
 }
 
 <h2>Details</h2>
@@ -89,3 +90,22 @@
     @Html.ActionLink("Print poster", "ShowPosts", new { id = Model.Id, printPosts = true }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div>
+    <h4>Besvarelser</h4>
+    <table class="table">
+        <tr>
+            <th>Hold</th>
+            <th>Post titel</th>
+            <th>Korrekt svar</th>
+        </tr>
+        @foreach (var item in answers)
+        {
+            <tr>
+                <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
+                <td>@item.Post.Title</td>
+                <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
+            </tr>
+        }
+    </table>
+</div>

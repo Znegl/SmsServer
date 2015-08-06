@@ -59,6 +59,7 @@ namespace SmsServer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Race race = GetRaceForUser(id).FirstOrDefault();
+            ViewBag.AnswersForRace = db.Answers.Include("Team").Include("Post").Where(a => a.Post.Race.Id == race.Id).ToList();
             if (race == null)
             {
                 return HttpNotFound();
