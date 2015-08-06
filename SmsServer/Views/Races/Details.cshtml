@@ -5,7 +5,6 @@
 }
 
 <h2>Details</h2>
-<!-- TODO Vis app oplysninger -->
 <div>
     <h4>Race</h4>
     <hr />
@@ -65,6 +64,22 @@
         <dd>
             @Html.DisplayFor(model => model.GatewayNumber)
         </dd>
+    </dl>
+</div>
+<hr />
+<div>
+    <h4>App oplysninger</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            Raceid
+        </dt>
+
+        <dd>
+            @Model.Id
+        </dd>
+
+        <dt>Gateway kode</dt>
+        <dd>@Model.GatewayCode</dd>
     </dl>
 </div>
 <p>
