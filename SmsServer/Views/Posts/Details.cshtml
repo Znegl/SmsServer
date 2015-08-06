@@ -1,7 +1,8 @@
 ﻿@model SmsServer.Models.Post
-
+@using SmsServer.Models
 @{
     ViewBag.Title = "Details";
+    var answers = (List<AnswerStatForPost>)ViewBag.AnswersForPost;
 }
 
 <h2>Details</h2>
@@ -63,3 +64,22 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div>
+    <h4>Besvarelser</h4>
+    <table class="table">
+        <tr>
+            <th>Hold</th>
+            <th>Antal besvarelser</th>
+            <th>Antal forkerte besvarelser</th>
+        </tr>
+        @foreach (var item in answers)
+        {
+            <tr>
+                <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
+                <td>@item.CountOfAnswers</td>
+                <td>@item.CountOfIncorrectAnswers</td>
+            </tr>
+        }
+    </table>
+</div>

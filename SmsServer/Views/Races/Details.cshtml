@@ -2,7 +2,7 @@
 @using SmsServer.Models
 @{
     ViewBag.Title = "Details";
-    var answers = (List<Answer>)ViewBag.AnswersForRace;
+    var answers = (List<AnswerStatForRace>)ViewBag.AnswersForRace;
 }
 
 <h2>Details</h2>
@@ -96,15 +96,15 @@
     <table class="table">
         <tr>
             <th>Hold</th>
-            <th>Post titel</th>
-            <th>Korrekt svar</th>
+            <th>Korrekt besvaret</th>
+            <th>Antal poster besvaret korrekt/ej korrekt</th>
         </tr>
         @foreach (var item in answers)
         {
             <tr>
                 <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
-                <td>@item.Post.Title</td>
                 <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
+                <td>@item.count</td>
             </tr>
         }
     </table>

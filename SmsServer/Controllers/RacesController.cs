@@ -59,11 +59,14 @@ namespace SmsServer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Race race = GetRaceForUser(id).FirstOrDefault();
-            ViewBag.AnswersForRace = db.Answers.Include("Team").Include("Post").Where(a => a.Post.Race.Id == race.Id).ToList();
             if (race == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.AnswersForRace = (from a in db.Answers.Include("Team").Include("Post")
+                                      where a.Post.Race.Id == race.Id
+                                      group a by new { a.Team, a.CorrectAnswerChosen } into g
+                                      select new AnswerStatForRace { Team = g.Key.Team, CorrectAnswerChosen = g.Key.CorrectAnswerChosen, count = g.Count() }).ToList();//.OrderBy(x => x.Team);
             return View(race);
         }
 

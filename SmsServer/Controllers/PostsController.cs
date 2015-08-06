@@ -39,6 +39,15 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
+            var answers = (from a in db.Answers.Include("Team").Include("Post")
+                                      where a.Post.Id == post.Id
+                                      group a by new { a.Team } into g
+                                      select new AnswerStatForPost { Team = g.Key.Team, CountOfAnswers = g.Count() }).ToList();
+            foreach (var item in answers)
+            {
+                item.CountOfIncorrectAnswers = db.Answers.Where(a => a.Post.Id == post.Id && a.Team == item.Team && a.CorrectAnswerChosen == false).Count();
+            }
+            ViewBag.AnswersForPost = answers;
             return View(post);
         }
         
