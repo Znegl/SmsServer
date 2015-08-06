@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    var answers = (Dictionary<int, int>)@ViewBag.TotalAnswers;
 }
 
 <h2>Index</h2>
@@ -27,7 +28,7 @@
             @Html.DisplayNameFor(model => model.ContactNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Owner)
+            Antal besvarelser
         </th>
         <th></th>
     </tr>
@@ -50,7 +51,7 @@
             @Html.DisplayFor(modelItem => item.ContactNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Owner)
+            @(answers.ContainsKey(item.Id) ? answers[item.Id] : 0)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

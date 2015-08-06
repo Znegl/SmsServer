@@ -41,6 +41,11 @@ namespace SmsServer.Controllers
         // GET: Races
         public ActionResult Index()
         {
+            var username = GetUserNameFromRequest();
+            ViewBag.TotalAnswers = (from a in db.Answers
+                                   where a.Post.Race.Owner == username
+                                   group a by a.Id into g
+                                   select new { g.Key, count = g.Count() }).ToDictionary(g => g.Key, g => g.count);
             var user = GetUserNameFromRequest();
             return View(GetRaceForUser(null));
         }

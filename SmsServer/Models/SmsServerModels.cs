@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace SmsServer.Models
 {
-    //TODO Add possibility for image on postanswer and post 
     public class Post
     {
         public int Id { get; set; }
