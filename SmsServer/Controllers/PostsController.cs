@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SmsServer.Models;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace SmsServer.Controllers
 {
@@ -89,6 +92,48 @@ namespace SmsServer.Controllers
             return View();
         }
 
+        private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
+        {
+            var imageData = new byte[image.ContentLength];
+            var imgOrig = Image.FromStream(image.InputStream);
+            if (imgOrig.Width < maxWidth && imgOrig.Height < maxHeight)
+            {
+                MemoryStream ms2 = new MemoryStream();
+                imgOrig.Save(ms2, imgOrig.RawFormat);
+                return ms2.ToArray();
+            }
+
+            var lnRatio = 0.0m;
+            int lnNewWidth = 0;
+            int lnNewHeight = 0;
+
+            if (imgOrig.Width > imgOrig.Height)
+            {
+                lnRatio = (decimal)maxWidth / imgOrig.Width;
+                lnNewWidth = maxWidth;
+                decimal lnTemp = imgOrig.Height * lnRatio;
+                lnNewHeight = (int)lnTemp;
+            }
+            else
+            {
+                lnRatio = (decimal)maxHeight / imgOrig.Height;
+                lnNewHeight = maxHeight;
+                decimal lnTemp = imgOrig.Width * lnRatio;
+                lnNewWidth = (int)lnTemp;
+            }
+
+            Image resizedImg = new Bitmap(lnNewWidth, lnNewHeight, imgOrig.PixelFormat);
+            Graphics g = Graphics.FromImage(resizedImg);
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            Rectangle rect = new Rectangle(0, 0, lnNewWidth, lnNewHeight);
+            g.DrawImage(imgOrig, rect);
+            MemoryStream ms = new MemoryStream();
+            resizedImg.Save(ms, imgOrig.RawFormat);
+            return ms.ToArray();
+        }
+
         // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -104,8 +149,7 @@ namespace SmsServer.Controllers
                     if (image != null)
                     {
                         post.ImageMimeType = image.ContentType;
-                        post.Image = new byte[image.ContentLength];
-                        image.InputStream.Read(post.Image, 0, image.ContentLength);
+                        post.Image = ReadAndResizeImage(image, 200, 200);
                     }
                     r.Posts.Add(post);
                     db.Posts.Add(post);
@@ -148,8 +192,7 @@ namespace SmsServer.Controllers
                     if (image != null)
                     {
                         post.ImageMimeType = image.ContentType;
-                        post.Image = new byte[image.ContentLength];
-                        image.InputStream.Read(post.Image, 0, image.ContentLength);
+                        post.Image = ReadAndResizeImage(image, 200, 200);
                     }
 
                     db.Entry(post).State = EntityState.Modified;

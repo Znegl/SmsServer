@@ -33,7 +33,7 @@
         <div class="PostImage">
             @if (item.Image != null)
                 {
-                <img width="300" src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
+                <img src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
             }
         </div>
         <div class="row">
@@ -44,7 +44,7 @@
                     <p>@ans.Text</p>
                     @if (ans.Image != null)
                     {
-                        <img width="300" src="@Url.Action("GetImage", "PostAnswers", new { id=ans.Id})" />
+                        <img src="@Url.Action("GetImage", "PostAnswers", new { id=ans.Id})" />
                     }
                     @{
                         var answerText = "#ic#" + Model.Id + "#" + item.Id + "#" + ans.Id + "#";

@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SmsServer.Models;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace SmsServer.Controllers
 {
@@ -52,7 +55,47 @@ namespace SmsServer.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
+        {
+            var imageData = new byte[image.ContentLength];
+            var imgOrig = Image.FromStream(image.InputStream);
+            if (imgOrig.Width < maxWidth && imgOrig.Height < maxHeight)
+            {
+                MemoryStream ms2 = new MemoryStream();
+                imgOrig.Save(ms2, imgOrig.RawFormat);
+                return ms2.ToArray();
+            }
 
+            var lnRatio = 0.0m;
+            int lnNewWidth = 0;
+            int lnNewHeight = 0;
+
+            if (imgOrig.Width > imgOrig.Height)
+            {
+                lnRatio = (decimal)maxWidth / imgOrig.Width;
+                lnNewWidth = maxWidth;
+                decimal lnTemp = imgOrig.Height * lnRatio;
+                lnNewHeight = (int)lnTemp;
+            }
+            else
+            {
+                lnRatio = (decimal)maxHeight / imgOrig.Height;
+                lnNewHeight = maxHeight;
+                decimal lnTemp = imgOrig.Width * lnRatio;
+                lnNewWidth = (int)lnTemp;
+            }
+
+            Image resizedImg = new Bitmap(lnNewWidth, lnNewHeight, imgOrig.PixelFormat);
+            Graphics g = Graphics.FromImage(resizedImg);
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            Rectangle rect = new Rectangle(0, 0, lnNewWidth, lnNewHeight);
+            g.DrawImage(imgOrig, rect);
+            MemoryStream ms = new MemoryStream();
+            resizedImg.Save(ms, imgOrig.RawFormat);
+            return ms.ToArray();
+        }
         // GET: PostAnswers/Create
         public ActionResult Create()
         {
@@ -77,8 +120,7 @@ namespace SmsServer.Controllers
                 if (image != null)
                 {
                     postAnswer.ImageMimeType = image.ContentType;
-                    postAnswer.Image = new byte[image.ContentLength];
-                    image.InputStream.Read(postAnswer.Image, 0, image.ContentLength);
+                    postAnswer.Image = ReadAndResizeImage(image, 200, 200);
                 }
 
                 p.Answers.Add(postAnswer);
@@ -124,8 +166,7 @@ namespace SmsServer.Controllers
                 if (image != null)
                 {
                     postAnswer.ImageMimeType = image.ContentType;
-                    postAnswer.Image = new byte[image.ContentLength];
-                    image.InputStream.Read(postAnswer.Image, 0, image.ContentLength);
+                    postAnswer.Image = ReadAndResizeImage(image, 200, 200);
                 }
 
 
