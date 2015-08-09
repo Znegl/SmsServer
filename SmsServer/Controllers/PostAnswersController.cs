@@ -51,10 +51,23 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
-            postAnswer.Post.CorrectAnswer = postAnswer;
+            postAnswer.CorrectAnswer = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult UnsetCorrectAnswer(int? id)
+        {
+            PostAnswer postAnswer = db.PostAnswers.Find(id);
+            if (postAnswer == null)
+            {
+                return HttpNotFound();
+            }
+            postAnswer.CorrectAnswer = false;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
         {
             var imageData = new byte[image.ContentLength];

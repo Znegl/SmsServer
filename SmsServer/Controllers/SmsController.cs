@@ -55,11 +55,11 @@ namespace SmsServer.Controllers
                 ChosenAnswer = pa,
                 Post = p,
                 Sms = sms,
-                CorrectAnswerChosen = pa == p.CorrectAnswer
+                CorrectAnswerChosen = pa.CorrectAnswer
             };
             context.Answers.Add(a);
             context.SaveChanges();
-            return (pa == p.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
+            return (pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
         }
 
         private string ProcessAdmin(string[] data)

@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
-            @if (item.Post.CorrectAnswer == item)
+            @if (item.CorrectAnswer)
             {
-                @:This is the correct answer
+                @Html.ActionLink("Fjern som korrekt svar", "UnsetCorrectAnswer", new { id = item.Id })
             }
             else
             {
