@@ -110,5 +110,20 @@ namespace SmsServer.Models
         public virtual Post Post { get; set; }
     }
 
+    public class SentSms
+    {
+        public int Id { get; set; }
+        public string Reciever { get; set; }
+        public string Body { get; set; }
+        public DateTime Sent { get; set; }
+        public bool SentSuccessfully { get; set; }
+    }
 
+    public class DelayedSms
+    {
+        public int Id { get; set; }
+        public string Reciever { get; set; }
+        public string Body { get; set; }
+        public DateTime SendOn { get; set; }
+    }
 }

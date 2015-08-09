@@ -16,5 +16,7 @@ namespace SmsServer.Models
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<SentSms> SentSmses { get; set; }
+        public DbSet<DelayedSms> DelayedSmses { get; set; }
     }
 }

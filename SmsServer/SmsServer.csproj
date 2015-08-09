@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201508090422562_MovedCorrectAnswerToPostAnswer.Designer.cs">
       <DependentUpon>201508090422562_MovedCorrectAnswerToPostAnswer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508090433393_AddedSentAndDelayedSms.cs" />
+    <Compile Include="Migrations\201508090433393_AddedSentAndDelayedSms.Designer.cs">
+      <DependentUpon>201508090433393_AddedSentAndDelayedSms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508090422562_MovedCorrectAnswerToPostAnswer.resx">
       <DependentUpon>201508090422562_MovedCorrectAnswerToPostAnswer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508090433393_AddedSentAndDelayedSms.resx">
+      <DependentUpon>201508090433393_AddedSentAndDelayedSms.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
