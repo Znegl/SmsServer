@@ -36,10 +36,18 @@
                 <img src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
             }
         </div>
+        <div class="postmetadata">
+            <p>
+                Kontakt @Model.Contact på @Model.ContactNumber hvis du har nogle spørgsmål.
+            </p>
+            <p>
+                Løbet starter @Model.Start og slutter @Model.End
+            </p>
+        </div>
         <div class="row">
             @foreach (var ans in item.Answers)
             {
-                <div class="answer col-md-4">
+                <div class="answer col-xs-6 col-md-4">
                     <h4>@ans.Title</h4>
                     <p>@ans.Text</p>
                     @if (ans.Image != null)

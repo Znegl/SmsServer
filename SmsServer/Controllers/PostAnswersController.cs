@@ -182,7 +182,8 @@ namespace SmsServer.Controllers
                     postAnswer.Image = ReadAndResizeImage(image, 200, 200);
                 }
 
-
+                postAnswer.Post = p;
+                postAnswer.PostID = p.Id;
                 db.Entry(postAnswer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

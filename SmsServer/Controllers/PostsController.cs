@@ -194,7 +194,7 @@ namespace SmsServer.Controllers
                         post.ImageMimeType = image.ContentType;
                         post.Image = ReadAndResizeImage(image, 200, 200);
                     }
-
+                    post.RaceID = r.Id;
                     db.Entry(post).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
