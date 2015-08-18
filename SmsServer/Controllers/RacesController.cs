@@ -44,7 +44,7 @@ namespace SmsServer.Controllers
             var username = GetUserNameFromRequest();
             ViewBag.TotalAnswers = (from a in db.Answers
                                    where a.Post.Race.Owner == username
-                                   group a by new { a.Post.RaceID, a.Post.Id } into g
+                                   group a by new { a.Post.RaceID } into g
                                    select new { g.Key, count = g.Count() }).ToDictionary(g => g.Key.RaceID, g => g.count);
             var user = GetUserNameFromRequest();
             return View(GetRaceForUser(null));
