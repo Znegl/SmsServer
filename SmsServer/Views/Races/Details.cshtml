@@ -1,17 +1,17 @@
 ﻿@model SmsServer.Models.Race
 @using SmsServer.Models
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detajler";
     var answers = (List<AnswerStatForRace>)ViewBag.AnswersForRace;
 }
 
-<h2>Details</h2>
+<h2>Detajler</h2>
 <div>
     <h4>Race</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Løbsnavn
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Start)
+            Start tidspunkt
         </dt>
 
         <dd>
@@ -27,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.End)
+            Slut tidspunkt
         </dt>
 
         <dd>
@@ -35,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Contact)
+            Kontakt navn
         </dt>
 
         <dd>
@@ -43,7 +43,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContactNumber)
+            Kontakt nummer
         </dt>
 
         <dd>
@@ -51,7 +51,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GatewayCode)
+            Gateway kode
         </dt>
 
         <dd>
@@ -59,7 +59,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GatewayNumber)
+            Gateway nummer
         </dt>
 
         <dd>
@@ -72,7 +72,7 @@
     <h4>App oplysninger</h4>
     <dl class="dl-horizontal">
         <dt>
-            Raceid
+            Race id
         </dt>
 
         <dd>
@@ -84,11 +84,11 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Rediger", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Opret post", "CreatePost", new { id = Model.Id }) |
     @Html.ActionLink("Se poster", "ListPosts", new { id = Model.Id }) |
     @Html.ActionLink("Print poster", "ShowPosts", new { id = Model.Id, printPosts = true }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Tilbage til oversigt", "Index")
 </p>
 
 <div>

@@ -1,31 +1,31 @@
 ﻿@model IEnumerable<SmsServer.Models.Race>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dine løb";
     var answers = (Dictionary<int, int>)@ViewBag.TotalAnswers;
 }
 
-<h2>Index</h2>
+<h2>Dine løb</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Opret nyt", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Løbsnavn
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Start)
+            Start tidspunkt
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.End)
+            Slut tidspunkt
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Contact)
+            Kontakt navn
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContactNumber)
+            Kontakt nummer
         </th>
         <th>
             Antal besvarelser
@@ -54,12 +54,12 @@
             @(answers.ContainsKey(item.Id) ? answers[item.Id] : 0)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Detajler", "Details", new { id=item.Id }) |
             @Html.ActionLink("Opret post", "CreatePost", new { id = item.Id }) |
             @Html.ActionLink("Se poster", "ListPosts", new { id = item.Id }) |
             @Html.ActionLink("Print poster", "ShowPosts", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Slet", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
