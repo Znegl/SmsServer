@@ -79,6 +79,7 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Teams = db.Teams.Where(t => t.Race.Id == race.Id).ToList();
             ViewBag.PrintPosts = printPosts;
             return View(race);
         }

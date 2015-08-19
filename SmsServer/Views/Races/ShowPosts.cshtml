@@ -15,11 +15,30 @@
     var createTeamComplete = "smsto:" + Model.GatewayNumber + ":" + createTeam;
 }
 <div class="qrcode">
-@Html.GenerateRelayQrCode("hest", createTeamComplete, height: 150, width: 150, margin: 5)
+    @Html.GenerateRelayQrCode("hest", createTeamComplete, height: 150, width: 150, margin: 5)
 </div>
 <div class="createteamtext">
     Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
 </div>
+@{
+    var teams = (List<SmsServer.Models.Team>)ViewBag.Teams;
+}
+@if (teams.Count > 0)
+{
+    <h3>Tilmeld dig et eksiterende hold</h3>
+    foreach (var t in teams)
+    {
+        <h5>@t.HoldID - @t.TeamName</h5>
+        createTeam = "#ct#" + Model.Id + "#" + t.HoldID + "#" + t.TeamName + "#";
+        createTeamComplete = "smsto:" + Model.GatewayNumber + ":" + createTeam;
+        <div class="qrcode">
+            @Html.GenerateRelayQrCode("hest", createTeamComplete, height: 150, width: 150, margin: 5)
+        </div>
+        <div class="createteamtext">
+            Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
+        </div>
+    }
+}
 <div class="linefeed"></div>
 
 
@@ -35,14 +54,6 @@
                 {
                 <img src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
             }
-        </div>
-        <div class="postmetadata">
-            <p>
-                Kontakt @Model.Contact på @Model.ContactNumber hvis du har nogle spørgsmål.
-            </p>
-            <p>
-                Løbet starter @Model.Start og slutter @Model.End
-            </p>
         </div>
         <div class="row">
             @foreach (var ans in item.Answers)
@@ -67,6 +78,15 @@
                 </div>
                         }
         </div>
+    </div>
+    <hr />
+    <div class="postmetadata">
+        <p>
+            Kontakt @Model.Contact på @Model.ContactNumber hvis du har nogle spørgsmål.
+        </p>
+        <p>
+            Løbet starter @Model.Start og slutter @Model.End
+        </p>
     </div>
     <div class="linefeed"></div>
 }

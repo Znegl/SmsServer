@@ -91,6 +91,7 @@ namespace SmsServer.Models
                 Members = new List<TeamMember>();
         }
         public int Id { get; set; }
+        public string HoldID { get; set; }
         public string TeamName { get; set; }
 
         public virtual Race Race { get; set; }
