@@ -1,30 +1,30 @@
 ﻿@model IEnumerable<SmsServer.Models.Post>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Poster";
 }
 
-<h2>Index</h2>
+<h2>Poster</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Opret ny", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Post titel
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Text)
+            Post tekst
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Placement)
+            Placering
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CorrectAnswerText)
+            Tekst ved korrekt svar
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.WrongAnswerText)
+            Tekst ved forkert svar
         </th>
         <th></th>
     </tr>
@@ -35,7 +35,7 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Text)
+            @string.Join(string.Empty,item.Text.Take(200))
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Placement)
@@ -47,11 +47,11 @@
             @Html.DisplayFor(modelItem => item.WrongAnswerText)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Detailjer", "Details", new { id=item.Id }) |
             @Html.ActionLink("Opret Svar", "CreateAnswer", new { id = item.Id }) |
             @Html.ActionLink("Se svarmuligheder", "ListAnswers", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Slet", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

@@ -1,18 +1,18 @@
 ﻿@model SmsServer.Models.Post
 @using SmsServer.Models
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detaljer";
     var answers = (List<AnswerStatForPost>)ViewBag.AnswersForPost;
 }
 
-<h2>Details</h2>
+<h2>Detajler</h2>
 
 <div>
     <h4>Post</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            Post titel
         </dt>
 
         <dd>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Text)
+            Post tekst
         </dt>
 
         <dd>
@@ -28,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Placement)
+            Post placering
         </dt>
 
         <dd>
@@ -36,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CorrectAnswerText)
+            Tekst ved korrekt svar
         </dt>
 
         <dd>
@@ -44,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.WrongAnswerText)
+            Tekst ved forkert svar
         </dt>
 
         <dd>
@@ -61,8 +61,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Rediger", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Tilbage til oversigten", "Index")
 </p>
 
 <div>
