@@ -252,6 +252,10 @@
     <Compile Include="Migrations\201508191039582_AddedHoldID.Designer.cs">
       <DependentUpon>201508191039582_AddedHoldID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508191310578_ChangedToMultilineText.cs" />
+    <Compile Include="Migrations\201508191310578_ChangedToMultilineText.Designer.cs">
+      <DependentUpon>201508191310578_ChangedToMultilineText.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -388,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508191039582_AddedHoldID.resx">
       <DependentUpon>201508191039582_AddedHoldID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508191310578_ChangedToMultilineText.resx">
+      <DependentUpon>201508191310578_ChangedToMultilineText.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
