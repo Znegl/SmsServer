@@ -11,10 +11,13 @@ namespace SmsServer.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Text { get; set; }
         public string Placement { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string CorrectAnswerText { get; set; }
+        [DataType(DataType.MultilineText)]
         public string WrongAnswerText { get; set; }
 
         public virtual List<PostAnswer> Answers { get; set; }
@@ -32,6 +35,7 @@ namespace SmsServer.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
         public virtual Post Post { get; set; }
@@ -91,6 +95,7 @@ namespace SmsServer.Models
                 Members = new List<TeamMember>();
         }
         public int Id { get; set; }
+        public string HoldID { get; set; }
         public string TeamName { get; set; }
 
         public virtual Race Race { get; set; }

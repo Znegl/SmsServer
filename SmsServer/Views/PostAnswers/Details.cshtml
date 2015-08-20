@@ -1,17 +1,17 @@
 ﻿@model SmsServer.Models.PostAnswer
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detajler";
 }
 
-<h2>Details</h2>
+<h2>Detajler</h2>
 
 <div>
-    <h4>PostAnswer</h4>
+    <h4>Svar mulighed</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            Titel
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Text)
+            Tekst
         </dt>
 
         <dd>
@@ -36,6 +36,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Rediger", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Tilbage til oversigten", "Index")
 </p>

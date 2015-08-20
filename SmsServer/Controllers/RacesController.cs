@@ -79,6 +79,7 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Teams = db.Teams.Where(t => t.Race.Id == race.Id).ToList();
             ViewBag.PrintPosts = printPosts;
             return View(race);
         }
@@ -161,7 +162,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber")] Race race)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber")] Race race)
         {
             if (ModelState.IsValid)
             {
@@ -170,6 +171,7 @@ namespace SmsServer.Controllers
                 {
                     return HttpNotFound();
                 }
+                race.Owner = GetUserNameFromRequest();
                 db.Entry(race).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

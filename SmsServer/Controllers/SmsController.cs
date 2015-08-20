@@ -79,19 +79,21 @@ namespace SmsServer.Controllers
 
         private string CreateTeam(string sender, List<string> data)
         {
+            var teamid = data[1];
             var teamname = data[1];
             if (!string.IsNullOrEmpty(data[2]))
                 teamname = data[2];
             var race = context.Races.Find(int.Parse(data[0]));
             if (race == null)
                 return "LØB IKKE FUNDET";
-            var team = context.Teams.Find(int.Parse(data[1]));
+            var team = context.Teams.Where(t => t.HoldID.Equals(teamid) && t.Race.Id == race.Id).FirstOrDefault();
             if (team == null)
             {
                 team = new Team
                 {
                     Race = race,
-                    TeamName = teamname
+                    TeamName = teamname,
+                    HoldID = data[1]
                 };
                 var tm = new TeamMember
                 {
@@ -134,7 +136,10 @@ namespace SmsServer.Controllers
                     break;
                 case "ic":
                     type = SmsType.Answer;
-                    res = AnswerPost(sender, data[2], data[3], data[4], sms);
+                    if (data.Length > 4)
+                        res = AnswerPost(sender, data[2], data[3], data[4], sms);
+                    else
+                        res = "Fejl ved indsendelse af svar. Prøv igen";
                     break;
                 case "ct":
                     type = SmsType.CreateTeam;
