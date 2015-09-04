@@ -29,16 +29,17 @@ namespace SmsServer.Controllers
                 Numbers = new string[] { smsSender },
                 Body = res
             };
-            foreach (var item in mm.Numbers)
-            {
-                context.SentSmses.Add(new SentSms
-                {
-                    Body = mm.Body,
-                    Reciever = item,
-                    Sent = DateTime.Now
-                });
-            }
-            context.SaveChanges();
+            //Do not save the SMS'es
+            //foreach (var item in mm.Numbers)
+            //{
+            //    context.SentSmses.Add(new SentSms
+            //    {
+            //        Body = mm.Body,
+            //        Reciever = item,
+            //        Sent = DateTime.Now
+            //    });
+            //}
+            //context.SaveChanges();
             return mm;
         }
 
