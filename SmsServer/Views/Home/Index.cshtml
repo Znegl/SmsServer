@@ -10,6 +10,20 @@
 
 <div class="row">
     <div class="col-md-4">
+        <h2>Er du på løb</h2>
+        <p>
+            Indtast post-id'et, så kan du indtaste det nedenfor og komme til posten
+        </p>
+        <p>
+            @using (Html.BeginForm("AnswerPost", "Home", FormMethod.Get, null))
+            {
+                <input name="postid" class="form-control" />
+                <input type="submit" class="btn" value="Besvar"/>
+            }
+
+        </p>
+    </div>
+    <div class="col-md-4">
         <h2>Kom igang</h2>
         <p>
             Opret en konto her på siden og du er igang. Du kan så se oversigten over dine løb og oprette nye løb.

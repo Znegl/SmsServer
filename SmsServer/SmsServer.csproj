@@ -195,6 +195,7 @@
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RacesController.cs" />
     <Compile Include="Controllers\SmsController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="CustomLoginHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -279,6 +280,7 @@
     <Content Include="PowerShellTilTest.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\sctrc2 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sctrc2.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -342,6 +344,9 @@
     <Content Include="Views\PostAnswers\Edit.cshtml" />
     <Content Include="Views\PostAnswers\Index.cshtml" />
     <Content Include="Views\Races\ShowPosts.cshtml" />
+    <Content Include="Views\Home\ConfirmTeam.cshtml" />
+    <Content Include="Views\Home\ChooseTeam.cshtml" />
+    <Content Include="Views\Teams\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
