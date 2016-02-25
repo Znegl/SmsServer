@@ -26,7 +26,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Start tidspunkt</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="text" class="form-control" id = "datepickerstart" name="Start" />
                 @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,8 @@
         <div class="form-group">
             <label class="control-label col-md-2">Slut tidspunkt</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="text" class="form-control" id="datepickerend" name="End" />
+               @* @Html.TextBoxFor(model => model.End, new { htmlAttributes = new { @class = "form-control", @id = "datepickerend" } })*@
                 @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,4 +78,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+  $(function() {
+      $( "#datepickerstart" ).datepicker();// "option", "dateFormat", "yy-mm-dd" );
+      $("#datepickerstart").datepicker("option", "dateFormat", "yy-mm-dd" );
+      $("#datepickerend").datepicker();
+      $("#datepickerend").datepicker("option", "dateFormat", "yy-mm-dd");
+  });
+</script>
 }
