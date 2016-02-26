@@ -50,7 +50,7 @@
         <p>
             <div class="qrcode">
                 Besvar posten på nettet
-                @Html.GenerateRelayQrCode("hest", @Url.Action("AnswerPost", "Home", new { id = item.Id }), height: 150, width: 150, margin: 5)
+                @Html.GenerateRelayQrCode("hest", @Url.Action("AnswerPost", "Home", new { id = item.Id }, this.Request.Url.Scheme), height: 150, width: 150, margin: 5)
             </div>
 
         </p>
