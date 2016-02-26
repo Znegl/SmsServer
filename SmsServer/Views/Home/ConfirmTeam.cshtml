@@ -9,5 +9,8 @@
     Vil du gerne besvare posten som @Model.TeamName så tryk her: @Html.ActionLink("Besvare post", "ShowPostForAnswer", "Home", new { postid=ViewBag.PostId},null)
 </p>
 <p>
+    Vil du gerne vælge et andet hold så tryk her: @Html.ActionLink("Vælg andet hold", "ChooseOtherTeam", "Home", new { postid = ViewBag.PostId }, null)
+</p>
+<p>
     Ellers tryk her for at oprette nyt hold: @Html.ActionLink("Opret hold", "CreateTeam", new { postid = ViewBag.PostId }, null)
 </p>

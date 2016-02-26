@@ -77,6 +77,13 @@ namespace SmsServer.Controllers
             return View("ChooseTeam", teams);
         }
 
+        public ActionResult ChooseOtherTeam(int postid)
+        {
+            if (Session["TeamId"] != null)
+                Session.Remove("TeamId");
+            return RedirectToAction("ChooseTeam", new { postid = postid });
+        }
+
         public ActionResult ChosenTeam(int teamid, int postid)
         {
             Session["TeamId"] = teamid;

@@ -1,0 +1,35 @@
+﻿@model SmsServer.Models.Post
+
+@{
+    ViewBag.Title = "ShowWebPost";
+}
+
+<div class="Post">
+    <h3>@Model.Title</h3>
+    <p>
+        @Model.Text
+    </p>
+    <div class="PostImage">
+        @if (Model.Image != null)
+        {
+            <img src="@Url.Action("GetImage", "Posts", new { id=Model.Id})" />
+        }
+    </div>
+    <div class="row">
+        @foreach (var ans in Model.Answers)
+            {
+            <div class="answer col-xs-6 col-md-4">
+                <h4>@ans.Title</h4>
+                <p>@ans.Text</p>
+                @if (ans.Image != null)
+                {
+                    <img src="@Url.Action("GetImage", "PostAnswers", new { id=ans.Id})" />
+                }
+                <div class="PostAnswerText">
+                    Tryk her for at vælge denne svar mulighed @Html.ActionLink("Svar "+ans.Title, "AnswerWebPost", "Posts", new { answerid = ans.Id }, null)
+                </div>
+            </div>
+                    }
+    </div>
+</div>
+

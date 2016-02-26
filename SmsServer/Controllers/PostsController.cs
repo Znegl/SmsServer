@@ -247,6 +247,51 @@ namespace SmsServer.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult ShowWebPost(int postid)
+        {
+            var post = db.Posts.Find(postid);
+
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            Session["PostToAnswer"] = postid;
+            return View("ShowWebPost", post);
+        }
+
+        [AllowAnonymous]
+        public ActionResult AnswerWebPost(int answerid)
+        {
+            var answer = db.PostAnswers.Find(answerid);
+
+            if (answer == null)
+                return HttpNotFound();
+
+            var team = db.Teams.Find(Session["TeamId"]);
+            Race r = null;
+            if (team != null)
+            {
+                r = team.Race;
+            }
+
+            var p = db.Posts.Find(Session["PostToAnswer"]);
+            var pa = p.Answers.Where(k => k.Id == answerid).FirstOrDefault();
+            var a = new Answer
+            {
+                AnsweredAt = DateTime.Now,
+                Team = team,
+                ChosenAnswer = pa,
+                Post = p,
+                Sms = null,
+                CorrectAnswerChosen = pa.CorrectAnswer
+            };
+            db.Answers.Add(a);
+            db.SaveChanges();
+            ViewBag.TextToShow = (pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
+            return View("AnswerWebPost");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

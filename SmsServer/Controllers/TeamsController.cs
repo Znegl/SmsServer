@@ -37,5 +37,15 @@ namespace SmsServer.Controllers
             Session["TeamId"] = team.Id;
             return RedirectToAction("ShowPostForAnswer", "Home", new { postid=Session["PostToAnswer"] });
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }
