@@ -48,6 +48,13 @@
             <h3>@item.Title</h3>
         <h5>Post ID: @item.Id</h5>
         <p>
+            <div class="qrcode">
+                Besvar posten på nettet
+                @Html.GenerateRelayQrCode("hest", @Url.Action("AnswerPost", "Home", new { id = item.Id }), height: 150, width: 150, margin: 5)
+            </div>
+
+        </p>
+        <p>
             @item.Text
         </p>
         <div class="PostImage">
