@@ -48,7 +48,7 @@ namespace SmsServer.Controllers
                                       select new AnswerStatForPost { Team = g.Key.Team, CountOfAnswers = g.Count() }).ToList();
             foreach (var item in answers)
             {
-                item.CountOfIncorrectAnswers = db.Answers.Where(a => a.Post.Id == post.Id && a.Team == item.Team && a.CorrectAnswerChosen == false).Count();
+                item.CountOfIncorrectAnswers = db.Answers.Where(a => a.Post.Id == post.Id && a.Team.Id == item.Team.Id && a.CorrectAnswerChosen == false).Count();
             }
             ViewBag.AnswersForPost = answers;
             return View(post);
