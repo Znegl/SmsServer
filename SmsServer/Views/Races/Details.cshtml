@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Detajler";
     var answers = (List<AnswerStatForRace>)ViewBag.AnswersForRace;
+    var scores = (Dictionary<Team, float>)ViewBag.TeamScores;
 }
 
 <h2>Detajler</h2>
@@ -93,19 +94,34 @@
 
 <div>
     <h4>Besvarelser</h4>
-    <table class="table">
-        <tr>
-            <th>Hold</th>
-            <th>Korrekt besvaret</th>
-            <th>Antal poster besvaret korrekt/ej korrekt</th>
-        </tr>
-        @foreach (var item in answers)
-        {
+    <table class="table" id="resultTable">
+        <thead>
             <tr>
-                <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
-                <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
-                <td>@item.count</td>
+                <th>Hold</th>
+                <th>Korrekt besvaret</th>
+                <th>Antal poster besvaret korrekt/ej korrekt</th>
+                <th>Score</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in answers)
+            {
+                <tr>
+                    <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
+                    <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
+                    <td>@item.count</td>
+                    <td>@scores[item.Team]</td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resultTable').DataTable();
+        });
+    </script>
+}

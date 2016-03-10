@@ -63,10 +63,22 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AnswersForRace = (from a in db.Answers.Include("Team").Include("Post")
+            var AnswersForRace = (from a in db.Answers.Include("Team").Include("Post")
                                       where a.Post.Race.Id == race.Id
                                       group a by new { a.Team, a.CorrectAnswerChosen } into g
                                       select new AnswerStatForRace { Team = g.Key.Team, CorrectAnswerChosen = g.Key.CorrectAnswerChosen, count = g.Count() }).ToList();//.OrderBy(x => x.Team);
+            var teamscore = new Dictionary<Team, float>();
+            foreach (var item in AnswersForRace)
+            {
+                if (!teamscore.Keys.Contains(item.Team))
+                    teamscore[item.Team] = 1.0f;
+                if (item.CorrectAnswerChosen)
+                    teamscore[item.Team] *= item.count;
+                else
+                    teamscore[item.Team] *= 1.0f / item.count;
+            }
+            ViewBag.TeamScores = teamscore;
+            ViewBag.AnswersForRace = AnswersForRace;
             return View(race);
         }
 
