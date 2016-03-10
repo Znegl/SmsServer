@@ -110,7 +110,7 @@
                     <td>@(item.Team != null ? item.Team.TeamName : "Intet hold")</td>
                     <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
                     <td>@item.count</td>
-                    <td>@scores[item.Team]</td>
+                    <td>@(item.Team != null ? scores[item.Team] : 0.0f)</td>
                 </tr>
             }
         </tbody>

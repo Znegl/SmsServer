@@ -70,12 +70,15 @@ namespace SmsServer.Controllers
             var teamscore = new Dictionary<Team, float>();
             foreach (var item in AnswersForRace)
             {
-                if (!teamscore.Keys.Contains(item.Team))
-                    teamscore[item.Team] = 1.0f;
-                if (item.CorrectAnswerChosen)
-                    teamscore[item.Team] *= item.count;
-                else
-                    teamscore[item.Team] *= 1.0f / item.count;
+                if (item.Team != null)
+                {
+                    if (!teamscore.Keys.Contains(item.Team))
+                        teamscore[item.Team] = 1.0f;
+                    if (item.CorrectAnswerChosen)
+                        teamscore[item.Team] *= item.count;
+                    else
+                        teamscore[item.Team] *= 1.0f / item.count;
+                }
             }
             ViewBag.TeamScores = teamscore;
             ViewBag.AnswersForRace = AnswersForRace;
