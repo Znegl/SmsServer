@@ -36,6 +36,14 @@
                 <input type="file" name="Image" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Post som er den næste ved valg af denne svar mulighed</label>
+            <div class="col-md-10">
+                @Html.DropDownList("nextpostid",(List<SelectListItem>)ViewBag.PostsToChoose)
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Opret" class="btn btn-default" />

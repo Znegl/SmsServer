@@ -10,6 +10,7 @@ using SmsServer.Models;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Diagnostics;
 
 namespace SmsServer.Controllers
 {
@@ -112,6 +113,16 @@ namespace SmsServer.Controllers
         // GET: PostAnswers/Create
         public ActionResult Create()
         {
+            var race = db.Races.Find(Session["RaceID"]);
+            var postsSelectItems = new List<SelectListItem>();
+            if (race != null)
+            {
+                var posts = race.Posts;
+
+                postsSelectItems = posts.Select(p => new SelectListItem { Text = p.Title, Value = p.Id.ToString() }).ToList();
+                postsSelectItems.Add(new SelectListItem { Text = "Ingen", Value = "0", Selected = true });
+            }
+            ViewBag.PostsToChoose = postsSelectItems;
             return View();
         }
 
@@ -120,7 +131,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, int nextPostId, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -134,6 +145,13 @@ namespace SmsServer.Controllers
                 {
                     postAnswer.ImageMimeType = image.ContentType;
                     postAnswer.Image = ReadAndResizeImage(image, 200, 200);
+                }
+
+                if (nextPostId > 0)
+                {
+                    var nextPost = db.Posts.Find(nextPostId);
+                    postAnswer.NextPost = nextPost;
+                    postAnswer.NextPostId = nextPost.Id;
                 }
 
                 p.Answers.Add(postAnswer);
@@ -158,6 +176,16 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
+            var race = db.Races.Find(Session["RaceID"]);
+            var postsSelectItems = new List<SelectListItem>();
+            if (race != null)
+            {
+                var posts = race.Posts;
+
+                postsSelectItems = posts.Select(p => new SelectListItem { Text = p.Title, Value = p.Id.ToString() }).ToList();
+                postsSelectItems.Add(new SelectListItem { Text = "Ingen", Value = "0", Selected = true });
+            }
+            ViewBag.PostsToChoose = postsSelectItems;
             return View(postAnswer);
         }
 
@@ -166,7 +194,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "Id,Title,Text")] PostAnswer postAnswer, int nextPostId, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -181,6 +209,19 @@ namespace SmsServer.Controllers
                     postAnswer.ImageMimeType = image.ContentType;
                     postAnswer.Image = ReadAndResizeImage(image, 200, 200);
                 }
+                if (nextPostId > 0)
+                {
+                    var nextPost = db.Posts.Find(nextPostId);
+                    postAnswer.NextPost = nextPost;
+                }
+                //TODO Why is the postAnswer not updated with the next post?
+                if (nextPostId > 0)
+                {
+                    var nextPost = db.Posts.Find(nextPostId);
+                    postAnswer.NextPost = nextPost;
+                    postAnswer.NextPostId = nextPost.Id;
+                }
+                db.Database.Log = logshit;
 
                 postAnswer.Post = p;
                 postAnswer.PostID = p.Id;
@@ -189,6 +230,11 @@ namespace SmsServer.Controllers
                 return RedirectToAction("Index");
             }
             return View(postAnswer);
+        }
+
+        private void logshit(string s)
+        {
+            Debug.WriteLine(s);
         }
 
         // GET: PostAnswers/Delete/5

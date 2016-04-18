@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,6 +15,8 @@ namespace SmsServer.Models
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
         public string Placement { get; set; }
+        public double longitude { get; set; }
+        public double lattitude { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string CorrectAnswerText { get; set; }
@@ -47,6 +50,10 @@ namespace SmsServer.Models
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
+
+        [ForeignKey("NextPost")]
+        public int? NextPostId { get; set; }
+        public virtual Post NextPost { get; set; }
     }
 
     public class Race

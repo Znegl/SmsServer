@@ -257,6 +257,14 @@
     <Compile Include="Migrations\201508191310578_ChangedToMultilineText.Designer.cs">
       <DependentUpon>201508191310578_ChangedToMultilineText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604181840322_AddedPositionAndNextPost.cs" />
+    <Compile Include="Migrations\201604181840322_AddedPositionAndNextPost.Designer.cs">
+      <DependentUpon>201604181840322_AddedPositionAndNextPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604182117439_addedforeignkey.cs" />
+    <Compile Include="Migrations\201604182117439_addedforeignkey.Designer.cs">
+      <DependentUpon>201604182117439_addedforeignkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -403,6 +411,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508191310578_ChangedToMultilineText.resx">
       <DependentUpon>201508191310578_ChangedToMultilineText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604181840322_AddedPositionAndNextPost.resx">
+      <DependentUpon>201604181840322_AddedPositionAndNextPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604182117439_addedforeignkey.resx">
+      <DependentUpon>201604182117439_addedforeignkey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

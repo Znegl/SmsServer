@@ -21,11 +21,18 @@
         <dt>
             Tekst
         </dt>
-
+        
         <dd>
             @Html.DisplayFor(model => model.Text)
         </dd>
 
+        @if (Model.NextPost != null)
+        {
+            <dt>Næste post</dt>
+            <dd>
+                @Html.ActionLink(Model.NextPost.Title, "Details", "Posts", new { id = Model.NextPost.Id }, null)
+            </dd>
+        }
         @if (Model.Image != null)
         {
             <dt>Billede</dt>
