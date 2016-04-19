@@ -192,6 +192,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostAnswersController.cs" />
+    <Compile Include="Controllers\PostsApiController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RacesController.cs" />
     <Compile Include="Controllers\SmsController.cs" />

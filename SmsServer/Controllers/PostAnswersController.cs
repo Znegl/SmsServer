@@ -221,7 +221,6 @@ namespace SmsServer.Controllers
                     postAnswer.NextPost = nextPost;
                     postAnswer.NextPostId = nextPost.Id;
                 }
-                db.Database.Log = logshit;
 
                 postAnswer.Post = p;
                 postAnswer.PostID = p.Id;
@@ -230,11 +229,6 @@ namespace SmsServer.Controllers
                 return RedirectToAction("Index");
             }
             return View(postAnswer);
-        }
-
-        private void logshit(string s)
-        {
-            Debug.WriteLine(s);
         }
 
         // GET: PostAnswers/Delete/5

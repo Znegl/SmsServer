@@ -18,6 +18,12 @@ namespace SmsServer
             //    );
 
             config.Routes.MapHttpRoute(
+                name: "UpdatedLocation",
+                routeTemplate: "api/updateLocationForPost",
+                defaults: new { controller = "PostsApi", action = "UpdateLocationForPost" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
