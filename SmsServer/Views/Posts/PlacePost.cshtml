@@ -4,7 +4,27 @@
 }
 
 <h2>PlacePost</h2>
+<div class="row">
+    <div class=".col-sm-8" id="mapid"></div>
+    <div class=".col-sm-4" id="">
+        <ol id="postlist">
+        </ol>
+    </div>
+</div>
 
+<div class="placePostInput">
+    <strong>Vælg post og tryk på knappen</strong>
+    @Html.DropDownList("postToPlace",(List<SelectListItem>)ViewBag.PostsSelectList,new { id="postToPlace"})
+    <button class="btn btn-primary" onclick="sendPlacementDataToServer();">
+        Placér
+    </button>
+</div>
+
+
+@section scripts {
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script>
     var raceid = @ViewBag.RaceId;
 </script>
+<script src="~/Scripts/PlacePosts.js"></script>
+}

@@ -294,6 +294,10 @@ namespace SmsServer.Controllers
 
         public ActionResult PlacePost(int raceid)
         {
+            var r = db.Races.Find(raceid);
+            if (r == null || r.Owner != GetUserNameFromRequest())
+                return HttpNotFound();
+            ViewBag.PostsSelectList = r.Posts.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Title }).ToList();
             ViewBag.RaceId = raceid;
             return View();
         }

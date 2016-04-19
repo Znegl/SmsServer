@@ -26,3 +26,9 @@ textarea {
 @media print {
     .linefeed {page-break-after: always;}
 }
+
+#mapid { height: 480px; }
+
+.placePostInput {
+    display: none;
+}

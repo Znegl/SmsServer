@@ -12,6 +12,7 @@ using SmsServer.Models;
 
 namespace SmsServer.Controllers
 {
+    [Authorize]
     public class PostsApiController : ApiController
     {
         private SmsServerContext db = new SmsServerContext();
@@ -40,56 +41,62 @@ namespace SmsServer.Controllers
         }
 
         // GET: api/PostsApi
-        public IQueryable<Post> GetPosts(int raceid)
+        [HttpGet]
+        public List<Post> GetAll(int id)
         {
-            var race = GetRaceForUser(raceid);
+            var race = GetRaceForUser(id).First();
             if (race == null)
-                return new List<Post>().AsQueryable<Post>();
-            return db.Posts;
+                return new List<Post>();
+            return race.Posts;
         }
 
         // PUT: api/PostsApi/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutPost(int id, Post post)
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutPost(int id, Post post)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    if (id != post.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    db.Entry(post).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!PostExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
+
+        //[HttpPost]
+        //[Route("api/updateLocationForPost/{postid}")]// /{longitude}/{lattitude}")]
+        public IHttpActionResult UpdateLocationForPost(int postid, [FromBody] PostPos postPos)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(post).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateLocationForPost(int postid, float longitude, float lattitude)
-        {
+            var longitude = postPos.Longitude;
+            var lattitude = postPos.Lattitude;
             var post = db.Posts.Find(postid);
 
-            //USER CHECK
-            var race = GetRaceForUser(post.RaceID);
+            var race = GetRaceForUser(post.RaceID).First();
+
+            if (race.Owner != GetUserNameFromRequest())
+                return StatusCode(HttpStatusCode.NotFound);
 
             if (race == null)
                 return StatusCode(HttpStatusCode.Unauthorized);
@@ -101,36 +108,36 @@ namespace SmsServer.Controllers
             return StatusCode(HttpStatusCode.OK);
         }
 
-        // POST: api/PostsApi
-        [ResponseType(typeof(Post))]
-        public IHttpActionResult PostPost(Post post)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/PostsApi
+        //[ResponseType(typeof(Post))]
+        //public IHttpActionResult PostPost(Post post)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.Posts.Add(post);
-            db.SaveChanges();
+        //    db.Posts.Add(post);
+        //    db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = post.Id }, post);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = post.Id }, post);
+        //}
 
-        // DELETE: api/PostsApi/5
-        [ResponseType(typeof(Post))]
-        public IHttpActionResult DeletePost(int id)
-        {
-            Post post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/PostsApi/5
+        //[ResponseType(typeof(Post))]
+        //public IHttpActionResult DeletePost(int id)
+        //{
+        //    Post post = db.Posts.Find(id);
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Posts.Remove(post);
-            db.SaveChanges();
+        //    db.Posts.Remove(post);
+        //    db.SaveChanges();
 
-            return Ok(post);
-        }
+        //    return Ok(post);
+        //}
 
         protected override void Dispose(bool disposing)
         {
