@@ -292,6 +292,12 @@ namespace SmsServer.Controllers
             return View("AnswerWebPost");
         }
 
+        public ActionResult PlacePost(int raceid)
+        {
+            ViewBag.RaceId = raceid;
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

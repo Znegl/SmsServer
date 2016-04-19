@@ -358,6 +358,7 @@
     <Content Include="Views\Teams\Create.cshtml" />
     <Content Include="Views\Posts\ShowWebPost.cshtml" />
     <Content Include="Views\Posts\AnswerWebPost.cshtml" />
+    <Content Include="Views\Posts\PlacePost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
