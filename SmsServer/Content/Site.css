@@ -29,6 +29,6 @@ textarea {
 
 #mapid { height: 480px; }
 
-.placePostInput {
+.placePostInput, .showPostMarker {
     display: none;
 }

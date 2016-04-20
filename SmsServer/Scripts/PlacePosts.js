@@ -5,6 +5,9 @@
 var postlistElement = $('#postlist');
 var popup = L.popup();
 
+var allMarkers = [];
+var markersAndPosts = {};
+
 var map = L.map('mapid').setView([56.0107, 10.9204], 7);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -37,6 +40,7 @@ var sendPlacementDataToServer = function () {
     }).done(function (resData) {
         //console.log(JSON.stringify(resData));
         popup.setContent("Tak for dit input.");
+        updatePostsOnMap();
     }).fail(function () {
         popup.setContent("Fejl ved uploading");
     });
@@ -51,14 +55,55 @@ var showPosts = function (posts) {
         postlistElement.append(elem);
         if (post.lattitude != 0 || post.longitude != 0) {
             var m = L.marker([post.lattitude, post.longitude]);
+            var newHtml = $('.showPostMarker').clone();
+            $('.posttitle', newHtml).html(post.Title);
+            m.bindPopup(newHtml.html());
             m.addTo(map);
+            allMarkers.push(m);
+            markersAndPosts[post.Id] = m;
+        }
+    }
+};
+
+var updatePostsOnMap = function () {
+    $.getJSON('/api/PostsApi/' + raceid, {}, function (data) {
+        posts = data;
+        deleteAllMarkes();
+        postlistElement.empty();
+        showPosts(posts);
+        drawLines();
+    });
+};
+
+var deleteAllMarkes = function () {
+    var markers = allMarkers;
+    for (var i = markers.length - 1; i >= 0; i--) {
+        map.removeLayer(markers[i]);
+    }
+    allMarkers = [];
+    markersAndPosts = {};
+};
+
+var drawLines = function () {
+    for (var i = posts.length - 1; i >= 0; i--) {
+        var post = posts[i];
+        if (markersAndPosts[post.Id]) {
+            var startPoint = markersAndPosts[post.Id]._latlng;
+            for (var j = post.Answers.length - 1; j >= 0; j--) {
+                if (markersAndPosts[post.Answers[j].NextPostId]) {
+                    var firstpolyline = new L.Polyline([startPoint,markersAndPosts[post.Answers[j].NextPostId]._latlng] , {
+                        color: 'red',
+                        weight: 3,
+                        opacity: 0.5,
+                        smoothFactor: 1
+                    });
+                    firstpolyline.addTo(map);
+                }
+            }
         }
     }
 };
 
 $(document).ready(function () {
-    $.getJSON('/api/PostsApi/' + raceid, {}, function (data) {
-        posts = data;
-        showPosts(posts);
-    });
+    updatePostsOnMap();
 });
