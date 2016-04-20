@@ -50,6 +50,27 @@ namespace SmsServer.Controllers
             return race.Posts;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public List<PostDTO> GetOnlyPosts(int id)
+        {
+            var posts = db.Posts.Where(p => p.RaceID == id).Select(p => new PostDTO
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Text = p.Text,
+                Placement = p.Placement,
+                longitude = p.longitude,
+                lattitude = p.lattitude,
+                CorrectAnswerText = p.CorrectAnswerText,
+                WrongAnswerText = p.WrongAnswerText,
+                RaceID = p.RaceID,
+                Image = p.Image,
+                ImageMimeType = p.ImageMimeType
+            }).ToList();
+            return posts;
+        }
+
         // PUT: api/PostsApi/5
         //[ResponseType(typeof(void))]
         //public IHttpActionResult PutPost(int id, Post post)

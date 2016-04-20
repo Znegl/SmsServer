@@ -66,7 +66,7 @@ var showPosts = function (posts) {
 };
 
 var updatePostsOnMap = function () {
-    $.getJSON('/api/PostsApi/' + raceid, {}, function (data) {
+    $.getJSON('/api/getAllPosts/' + raceid, {}, function (data) {
         posts = data;
         deleteAllMarkes();
         postlistElement.empty();

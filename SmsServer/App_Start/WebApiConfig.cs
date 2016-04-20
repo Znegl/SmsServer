@@ -24,6 +24,18 @@ namespace SmsServer
             );
 
             config.Routes.MapHttpRoute(
+                name: "GetPostsOnly",
+                routeTemplate: "api/postsonly/{id}",
+                defaults: new { controller = "PostsApi", action = "GetOnlyPosts" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "GetAllPosts",
+                routeTemplate: "api/getAllPosts/{id}",
+                defaults: new { controller = "PostsApi", action = "GetAll" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

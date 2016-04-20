@@ -273,6 +273,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MassMessageDTO.cs" />
+    <Compile Include="Models\PostDTO.cs" />
     <Compile Include="Models\PostPos.cs" />
     <Compile Include="Models\SmsDTO.cs" />
     <Compile Include="Models\SmsServerContext.cs" />
