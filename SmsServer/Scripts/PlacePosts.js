@@ -51,7 +51,16 @@ var showPosts = function (posts) {
     for (var i = posts.length - 1; i >= 0; i--) {
         var post = posts[i];
         var elem = document.createElement('li');
-        elem.innerText = (i+1)+': '+post.Title;
+        elem.innerText = (i + 1) + ': ' + post.Title;
+        $(elem).attr("data-postid", post.Id);
+        $(elem).mouseover(function (e) {
+            var tmpMar = markersAndPosts[$(this).data().postid];
+            tmpMar.openPopup();
+        });
+        $(elem).mouseout(function (e) {
+            var tmpMar = markersAndPosts[$(this).data().postid];
+            tmpMar.closePopup();
+        });
         postlistElement.append(elem);
         if (post.lattitude != 0 || post.longitude != 0) {
             var m = L.marker([post.lattitude, post.longitude]);
