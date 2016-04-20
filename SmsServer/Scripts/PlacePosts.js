@@ -111,6 +111,10 @@ var drawLines = function () {
                         smoothFactor: 1
                     });
                     firstpolyline.addTo(map);
+                    var ah = L.polylineDecorator(firstpolyline).addTo(map);
+                    ah.setPatterns([
+                        { offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 15, polygon: false, pathOptions: { stroke: true } }) }
+                    ]);
                 }
             }
         }
