@@ -51,12 +51,12 @@ var showPosts = function (posts) {
     for (var i = posts.length - 1; i >= 0; i--) {
         var post = posts[i];
         var elem = document.createElement('li');
-        elem.innerText = post.Title;
+        elem.innerText = (i+1)+': '+post.Title;
         postlistElement.append(elem);
         if (post.lattitude != 0 || post.longitude != 0) {
             var m = L.marker([post.lattitude, post.longitude]);
             var newHtml = $('.showPostMarker').clone();
-            $('.posttitle', newHtml).html(post.Title);
+            $('.posttitle', newHtml).html((i+1) + ': ' + post.Title);
             m.bindPopup(newHtml.html());
             m.addTo(map);
             allMarkers.push(m);
