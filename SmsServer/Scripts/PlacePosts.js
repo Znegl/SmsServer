@@ -72,6 +72,10 @@ var showPosts = function (posts) {
             markersAndPosts[post.Id] = m;
         }
     }
+    if (allMarkers.length > 0) {
+        var group = new L.featureGroup(allMarkers);
+        map.fitBounds(group.getBounds());
+    }
 };
 
 var updatePostsOnMap = function () {
