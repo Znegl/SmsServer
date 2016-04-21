@@ -70,7 +70,20 @@ namespace SmsServer.Controllers
             };
             context.Answers.Add(a);
             context.SaveChanges();
-            return (pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
+            var textToShow = (pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
+
+            if (r.ShowNextPost && pa.NextPost != null)
+            {
+                textToShow += ".  Næste post er " + pa.NextPost.Title;
+                if (pa.NextPost.lattitude != 0 || pa.NextPost.longitude != 0)
+                {
+                    textToShow += "Den er placereret på: ";
+                    textToShow += "("+pa.NextPost.lattitude.ToString() + ", ";
+                    textToShow += pa.NextPost.longitude.ToString()+")";
+                }
+            }
+
+            return textToShow;
         }
 
         private string ProcessAdmin(string[] data)

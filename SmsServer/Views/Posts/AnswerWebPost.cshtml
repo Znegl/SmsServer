@@ -6,6 +6,10 @@
 <h2>Tak for dit svar</h2>
 
 <p>
-    @ViewBag.TextToShow
+    @foreach (var item in (List<String>)ViewBag.TextToShow)
+    {
+        @item<br />
+    }
+
 </p>
 

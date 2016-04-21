@@ -67,6 +67,8 @@ namespace SmsServer.Models
         public string GatewayNumber { get; set; }
         public string GatewayCode { get; set; }
 
+        public bool ShowNextPost { get; set; }
+
         //Guid from application user.
         public string Owner { get; set; }
 

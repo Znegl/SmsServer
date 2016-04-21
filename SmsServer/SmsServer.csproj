@@ -266,6 +266,10 @@
     <Compile Include="Migrations\201604182117439_addedforeignkey.Designer.cs">
       <DependentUpon>201604182117439_addedforeignkey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604210622087_addedShowNextPost.cs" />
+    <Compile Include="Migrations\201604210622087_addedShowNextPost.Designer.cs">
+      <DependentUpon>201604210622087_addedShowNextPost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -423,6 +427,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604182117439_addedforeignkey.resx">
       <DependentUpon>201604182117439_addedforeignkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604210622087_addedShowNextPost.resx">
+      <DependentUpon>201604210622087_addedShowNextPost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

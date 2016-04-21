@@ -10,6 +10,7 @@ using SmsServer.Models;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Text;
 
 namespace SmsServer.Controllers
 {
@@ -288,7 +289,21 @@ namespace SmsServer.Controllers
             };
             db.Answers.Add(a);
             db.SaveChanges();
-            ViewBag.TextToShow = (pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText);
+            var textToShow = new List<String>();
+            textToShow.Add((pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText));
+
+            if (r.ShowNextPost && pa.NextPost != null)
+            {
+                textToShow.Add("Næste post er " + pa.NextPost.Title);
+                if (pa.NextPost.lattitude != 0 || pa.NextPost.longitude != 0)
+                {
+                    textToShow.Add("Den er placereret på:");
+                    textToShow.Add(pa.NextPost.lattitude.ToString());
+                    textToShow.Add(pa.NextPost.longitude.ToString());
+                }
+            }
+
+            ViewBag.TextToShow = textToShow;
             return View("AnswerWebPost");
         }
 
