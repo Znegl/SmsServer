@@ -236,6 +236,9 @@ namespace SmsServer.Controllers
 
         public FileResult GetAllAnswersForRace(int id)
         {
+            //TODO Must provide filename like stats_for_race_<id>.csv
+            //TODO Should the file include single quotes?
+
             var answers = db.Answers.Where(a => a.Post.Race.Id == id).ToList();
 
             var writer = new StringWriter();
