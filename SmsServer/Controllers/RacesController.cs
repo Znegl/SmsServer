@@ -303,7 +303,7 @@ namespace SmsServer.Controllers
                 writer.WriteLine("'");
             }
             writer.Flush();
-            //var memstream = new MemoryStream();
+
             var encoder = new UnicodeEncoding();
             var data = encoder.GetBytes(writer.ToString());
 
