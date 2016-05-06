@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SmsServer.Models;
+using System.IO;
+using System.Text;
 
 namespace SmsServer.Controllers
 {
@@ -230,6 +232,82 @@ namespace SmsServer.Controllers
             db.Races.Remove(race);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public FileResult GetAllAnswersForRace(int id)
+        {
+            var answers = db.Answers.Where(a => a.Post.Race.Id == id).ToList();
+
+            var writer = new StringWriter();
+
+            writer.Write("'");
+            writer.Write("Answered at");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Valgt svar id");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Valgt svar");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Korrekt svar");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Post id");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Post title");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Holdnavn");
+            writer.Write("',");
+
+            writer.WriteLine("'");
+
+            foreach (var answer in answers) 
+            {
+                writer.Write("'");
+                writer.Write(answer.AnsweredAt);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.ChosenAnswer.Id);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.ChosenAnswer.Title);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.CorrectAnswerChosen);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.Post.Id);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.Post.Title);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(answer.Team.TeamName);
+                writer.Write("',");
+
+                writer.WriteLine("'");
+            }
+            writer.Flush();
+            //var memstream = new MemoryStream();
+            var encoder = new UnicodeEncoding();
+            var data = encoder.GetBytes(writer.ToString());
+
+            return File(data, "text/csv");
         }
 
         protected override void Dispose(bool disposing)

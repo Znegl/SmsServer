@@ -59,7 +59,8 @@
             @Html.ActionLink("Opret post", "CreatePost", new { id = item.Id }) |
             @Html.ActionLink("Se poster", "ListPosts", new { id = item.Id }) |
             @Html.ActionLink("Print poster", "ShowPosts", new { id = item.Id }) |
-            @Html.ActionLink("Slet", "Delete", new { id=item.Id })
+            @Html.ActionLink("Slet", "Delete", new { id=item.Id }) | 
+            @Html.ActionLink("Download svar som CSV", "GetAllAnswersForRace", new { id=item.Id})
         </td>
     </tr>
 }
