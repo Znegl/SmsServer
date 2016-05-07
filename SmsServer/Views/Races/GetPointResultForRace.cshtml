@@ -12,7 +12,8 @@
     @Html.ActionLink("Opret post", "CreatePost", new { id = ViewBag.RaceID }) |
     @Html.ActionLink("Se poster", "ListPosts", new { id = ViewBag.RaceID }) |
     @Html.ActionLink("Print poster", "ShowPosts", new { id = ViewBag.RaceID, printPosts = true }) |
-    @Html.ActionLink("Tilbage til oversigt", "Index")
+    @Html.ActionLink("Tilbage til oversigt", "Index") |
+    @Html.ActionLink("Download som CSV", "DownloadPointsAsCSV", new { id = ViewBag.RaceID})
 </p>
 
 <div>

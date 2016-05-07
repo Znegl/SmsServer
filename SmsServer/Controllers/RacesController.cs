@@ -265,6 +265,60 @@ namespace SmsServer.Controllers
             return View();
         }
 
+        public FileResult DownloadPointsAsCSV(int id)
+        {
+            //Race race = db.Races.Find(id);
+            //Race raceFromDb = GetRaceForUser(race.Id).FirstOrDefault();
+            //if (raceFromDb != race)
+            //{
+            //    return HttpNotFound();
+            //}
+            //TODO Create the sum of points in the linq statement
+            var AnswersForRace = (from a in db.Answers.Include("Team").Include("Post")
+                                  where a.Post.Race.Id == id
+                                  select a).ToList();
+            //group a by new { a.Team, a.CorrectAnswerChosen } into g
+            //select new AnswerStatForRace { Team = g.Key.Team, CorrectAnswerChosen = g.Key.CorrectAnswerChosen, count = g.Count() }).ToList();//.OrderBy(x => x.Team);
+            var teamscore = new Dictionary<Team, double>();
+            foreach (var item in AnswersForRace)
+            {
+                if (item.Team != null)
+                {
+                    if (!teamscore.Keys.Contains(item.Team))
+                        teamscore[item.Team] = 0.0;
+                    else
+                        teamscore[item.Team] += item.ChosenAnswer.PointValue;
+                }
+            }
+
+            var writer = new StringWriter();
+
+            writer.Write("'");
+            writer.Write("Holdnavn");
+            writer.Write("',");
+
+            writer.Write("'");
+            writer.Write("Samlet point");
+            writer.WriteLine("'");
+
+            foreach (var score in teamscore)
+            {
+                writer.Write("'");
+                writer.Write(score.Key.TeamName);
+                writer.Write("',");
+
+                writer.Write("'");
+                writer.Write(score.Value);
+                writer.WriteLine("'");
+            }
+            writer.Flush();
+
+            var encoder = new UnicodeEncoding();
+            var data = encoder.GetBytes(writer.ToString());
+
+            return File(data, "text/csv");
+        }
+
         public FileResult GetAllAnswersForRace(int id)
         {
             //Race race = db.Races.Find(id);
