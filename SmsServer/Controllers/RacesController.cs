@@ -234,8 +234,45 @@ namespace SmsServer.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult GetPointResultForRace(int id)
+        {
+            Race race = db.Races.Find(id);
+            Race raceFromDb = GetRaceForUser(race.Id).FirstOrDefault();
+            if (raceFromDb != race)
+            {
+                return HttpNotFound();
+            }
+            //TODO Create the sum of points in the linq statement
+            var AnswersForRace = (from a in db.Answers.Include("Team").Include("Post")
+                                  where a.Post.Race.Id == race.Id
+                                  select a).ToList();
+                                  //group a by new { a.Team, a.CorrectAnswerChosen } into g
+                                  //select new AnswerStatForRace { Team = g.Key.Team, CorrectAnswerChosen = g.Key.CorrectAnswerChosen, count = g.Count() }).ToList();//.OrderBy(x => x.Team);
+            var teamscore = new Dictionary<Team, double>();
+            foreach (var item in AnswersForRace)
+            {
+                if (item.Team != null)
+                {
+                    if (!teamscore.Keys.Contains(item.Team))
+                        teamscore[item.Team] = 0.0;
+                    else
+                        teamscore[item.Team] += item.ChosenAnswer.PointValue;
+                }
+            }
+            ViewBag.TeamScores = teamscore;
+            ViewBag.AnswersForRace = AnswersForRace;
+            ViewBag.RaceID = id;
+            return View();
+        }
+
         public FileResult GetAllAnswersForRace(int id)
         {
+            //Race race = db.Races.Find(id);
+            //Race raceFromDb = GetRaceForUser(race.Id).FirstOrDefault();
+            //if (raceFromDb != race)
+            //{
+            //    return HttpNotFound();
+            //}
             //TODO Must provide filename like stats_for_race_<id>.csv
             //TODO Should the file include single quotes?
 

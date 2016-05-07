@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201604210622087_addedShowNextPost.Designer.cs">
       <DependentUpon>201604210622087_addedShowNextPost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605070648510_AddedPointsToPostAnswer.cs" />
+    <Compile Include="Migrations\201605070648510_AddedPointsToPostAnswer.Designer.cs">
+      <DependentUpon>201605070648510_AddedPointsToPostAnswer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -367,6 +371,7 @@
     <Content Include="Views\Posts\ShowWebPost.cshtml" />
     <Content Include="Views\Posts\AnswerWebPost.cshtml" />
     <Content Include="Views\Posts\PlacePost.cshtml" />
+    <Content Include="Views\Races\GetPointResultForRace.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -430,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604210622087_addedShowNextPost.resx">
       <DependentUpon>201604210622087_addedShowNextPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605070648510_AddedPointsToPostAnswer.resx">
+      <DependentUpon>201605070648510_AddedPointsToPostAnswer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

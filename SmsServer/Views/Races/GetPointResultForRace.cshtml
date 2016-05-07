@@ -1,0 +1,46 @@
+﻿@using SmsServer.Models
+@{
+    ViewBag.Title = "GetPointResultForRace";
+    var answers = (List<Answer>)ViewBag.AnswersForRace;
+    var scores = (Dictionary<Team, double>)ViewBag.TeamScores;
+}
+
+<h2>GetPointResultForRace</h2>
+
+<p>
+    @Html.ActionLink("Rediger", "Edit", new { id = ViewBag.RaceID }) |
+    @Html.ActionLink("Opret post", "CreatePost", new { id = ViewBag.RaceID }) |
+    @Html.ActionLink("Se poster", "ListPosts", new { id = ViewBag.RaceID }) |
+    @Html.ActionLink("Print poster", "ShowPosts", new { id = ViewBag.RaceID, printPosts = true }) |
+    @Html.ActionLink("Tilbage til oversigt", "Index")
+</p>
+
+<div>
+    <h4>Besvarelser</h4>
+    <table class="table" id="resultTable">
+        <thead>
+            <tr>
+                <th>Hold</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in scores)
+            {
+                <tr>
+                    <td>@(item.Key != null ? item.Key.TeamName : "Intet hold")</td>
+                    <td>@(item.Key != null ? scores[item.Key] : 0.0)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resultTable').DataTable();
+        });
+    </script>
+}

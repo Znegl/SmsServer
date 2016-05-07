@@ -46,6 +46,8 @@ namespace SmsServer.Models
 
         public bool CorrectAnswer { get; set; }
 
+        public double PointValue { get; set; }
+
         [MaxLength]
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]
