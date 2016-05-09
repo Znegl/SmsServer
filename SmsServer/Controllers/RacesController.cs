@@ -316,7 +316,7 @@ namespace SmsServer.Controllers
             var encoder = new UnicodeEncoding();
             var data = encoder.GetBytes(writer.ToString());
 
-            return File(data, "text/csv");
+            return File(data, "text/csv", "score_board.csv");
         }
 
         public FileResult GetAllAnswersForRace(int id)
@@ -401,7 +401,41 @@ namespace SmsServer.Controllers
             var encoder = new UnicodeEncoding();
             var data = encoder.GetBytes(writer.ToString());
 
-            return File(data, "text/csv");
+            //Response.Charset = encoder.WebName;
+            //Response.HeaderEncoding = encoder;
+            //Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", (Request.Browser.Browser == "IE") ? HttpUtility.UrlEncode(fileName, encoding) : fileName));
+
+            return File(data, "text/csv", "answers_for_race.csv");
+        }
+
+        [AllowAnonymous]
+        public ActionResult CleanNumbers()
+        {
+            var dateToCheck = DateTime.Now.AddHours(4);
+            var racesToFix = db.Races.Where(r => r.End < dateToCheck).ToList();
+            var smsToFix = db.Smses.Where(s => s.Received < dateToCheck).ToList();
+            var teamMembersToFix = new List<Team>();
+            racesToFix.ForEach(r => 
+            {
+                teamMembersToFix.AddRange(db.Teams.Where(t => t.Race.Id == r.Id).Include("Members").ToList());
+                r.GatewayNumber = "+4512312312";
+                r.ContactNumber = "+4512312312";
+            });
+            smsToFix.ForEach(s =>
+            {
+                s.Sender = "+4512312312";
+            });
+            teamMembersToFix.ForEach(tm =>
+            {
+                tm.Members.ForEach(m =>
+                {
+                    m.Number = "+4512312312";
+                });
+            });
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
