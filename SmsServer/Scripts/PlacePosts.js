@@ -8,6 +8,9 @@ var popup = L.popup();
 var allMarkers = [];
 var markersAndPosts = {};
 
+var allLines = [];
+var allArrows = [];
+
 var map = L.map('mapid').setView([56.0107, 10.9204], 7);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -82,6 +85,7 @@ var updatePostsOnMap = function () {
     $.getJSON('/api/getAllPosts/' + raceid, {}, function (data) {
         posts = data;
         deleteAllMarkes();
+        deleteAllLinesAndArrows();
         postlistElement.empty();
         showPosts(posts);
         drawLines();
@@ -95,6 +99,15 @@ var deleteAllMarkes = function () {
     }
     allMarkers = [];
     markersAndPosts = {};
+};
+
+var deleteAllLinesAndArrows = function () {
+    for (var i = allLines.length - 1 ; i >= 0; i--) {
+        map.removeLayer(allLines[i]);
+        map.removeLayer(allArrows[i]);
+    }
+    allLines = [];
+    allArrows = [];
 };
 
 var drawLines = function () {
@@ -111,10 +124,12 @@ var drawLines = function () {
                         smoothFactor: 1
                     });
                     firstpolyline.addTo(map);
+                    allLines.push(firstpolyline);
                     var ah = L.polylineDecorator(firstpolyline).addTo(map);
                     ah.setPatterns([
                         { offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 15, polygon: false, pathOptions: { stroke: true } }) }
                     ]);
+                    allArrows.push(ah);
                 }
             }
         }
