@@ -32,6 +32,7 @@ namespace SmsServer.Models
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
+        public Boolean IsImageOnDisk { get; set; }
     }
 
     public class PostAnswer
@@ -52,6 +53,7 @@ namespace SmsServer.Models
         public byte[] Image { get; set; }
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
+        public Boolean IsImageOnDisk { get; set; }
 
         [ForeignKey("NextPost")]
         public int? NextPostId { get; set; }

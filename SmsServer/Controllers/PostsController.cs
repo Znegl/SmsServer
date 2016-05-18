@@ -147,13 +147,18 @@ namespace SmsServer.Controllers
                 var r = db.Races.Find(Session["RaceID"]);
                 if (r.Owner == GetUserNameFromRequest())
                 {
+                    r.Posts.Add(post);
+                    db.Posts.Add(post);
+                    db.SaveChanges();
                     if (image != null)
                     {
                         post.ImageMimeType = image.ContentType;
-                        post.Image = ReadAndResizeImage(image, 200, 200);
+                        post.IsImageOnDisk = true;
+
+                        var path = Path.Combine(Server.MapPath("~/images/"), $"post_{post.Id}");
+                        var imageData = ReadAndResizeImage(image, 200, 200);
+                        System.IO.File.WriteAllBytes(path, imageData);
                     }
-                    r.Posts.Add(post);
-                    db.Posts.Add(post);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -193,7 +198,11 @@ namespace SmsServer.Controllers
                     if (image != null)
                     {
                         post.ImageMimeType = image.ContentType;
-                        post.Image = ReadAndResizeImage(image, 200, 200);
+                        post.IsImageOnDisk = true;
+
+                        var path = Path.Combine(Server.MapPath("~/images/"), $"post_{post.Id}");
+                        var imageData = ReadAndResizeImage(image, 200, 200);
+                        System.IO.File.WriteAllBytes(path, imageData);
                     }
                     post.RaceID = r.Id;
                     db.Entry(post).State = EntityState.Modified;
@@ -238,7 +247,12 @@ namespace SmsServer.Controllers
         public FileContentResult GetImage(int id)
         {
             Post post= db.Posts.Find(id);
-            if (post != null)
+            if (post != null && post.IsImageOnDisk)
+            {
+                var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"post_{post.Id}"));
+                return File(data, post.ImageMimeType);
+            }
+            else if (post != null)
             {
                 return File(post.Image, post.ImageMimeType);
             }

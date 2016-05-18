@@ -141,11 +141,6 @@ namespace SmsServer.Controllers
                 {
                     return HttpNotFound();
                 }
-                if (image != null)
-                {
-                    postAnswer.ImageMimeType = image.ContentType;
-                    postAnswer.Image = ReadAndResizeImage(image, 200, 200);
-                }
 
                 if (nextPostId > 0)
                 {
@@ -157,6 +152,15 @@ namespace SmsServer.Controllers
                 p.Answers.Add(postAnswer);
                 postAnswer.Post = p;
                 db.PostAnswers.Add(postAnswer);
+                db.SaveChanges();
+                if (image != null)
+                {
+                    postAnswer.ImageMimeType = image.ContentType;
+                    postAnswer.IsImageOnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"postanswer_{postAnswer.Id}");
+                    var imageData = ReadAndResizeImage(image, 200, 200);
+                    System.IO.File.WriteAllBytes(path, imageData);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -207,7 +211,10 @@ namespace SmsServer.Controllers
                 if (image != null)
                 {
                     postAnswer.ImageMimeType = image.ContentType;
-                    postAnswer.Image = ReadAndResizeImage(image, 200, 200);
+                    postAnswer.IsImageOnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"postanswer_{postAnswer.Id}");
+                    var imageData = ReadAndResizeImage(image, 200, 200);
+                    System.IO.File.WriteAllBytes(path, imageData);
                 }
                 if (nextPostId > 0)
                 {
@@ -265,7 +272,12 @@ namespace SmsServer.Controllers
         public FileContentResult GetImage(int id)
         {
             PostAnswer postAnswer = db.PostAnswers.Find(id);
-            if (postAnswer != null)
+            if (postAnswer != null && postAnswer.IsImageOnDisk)
+            {
+                var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"postanswer_{postAnswer.Id}"));
+                return File(data, postAnswer.ImageMimeType);
+            }
+            else if (postAnswer != null)
             {
                 return File(postAnswer.Image, postAnswer.ImageMimeType);
             }

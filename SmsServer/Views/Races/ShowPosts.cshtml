@@ -58,7 +58,7 @@
             @item.Text
         </p>
         <div class="PostImage">
-            @if (item.Image != null)
+            @if (item.IsImageOnDisk || item.Image != null)
                 {
                 <img src="@Url.Action("GetImage", "Posts", new { id=item.Id})" />
             }
@@ -69,7 +69,7 @@
                 <div class="answer col-xs-6 col-md-4">
                     <h4>@ans.Title</h4>
                     <p>@ans.Text</p>
-                    @if (ans.Image != null)
+                    @if (ans.IsImageOnDisk || ans.Image != null)
                     {
                         <img src="@Url.Action("GetImage", "PostAnswers", new { id=ans.Id})" />
                     }

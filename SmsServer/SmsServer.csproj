@@ -274,6 +274,10 @@
     <Compile Include="Migrations\201605070648510_AddedPointsToPostAnswer.Designer.cs">
       <DependentUpon>201605070648510_AddedPointsToPostAnswer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605180444449_addedimageondisk.cs" />
+    <Compile Include="Migrations\201605180444449_addedimageondisk.Designer.cs">
+      <DependentUpon>201605180444449_addedimageondisk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -296,6 +300,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\index.html" />
     <Content Include="PowerShellTilTest.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -439,6 +444,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605070648510_AddedPointsToPostAnswer.resx">
       <DependentUpon>201605070648510_AddedPointsToPostAnswer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605180444449_addedimageondisk.resx">
+      <DependentUpon>201605180444449_addedimageondisk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

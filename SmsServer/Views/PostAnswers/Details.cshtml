@@ -33,7 +33,7 @@
                 @Html.ActionLink(Model.NextPost.Title, "Details", "Posts", new { id = Model.NextPost.Id }, null)
             </dd>
         }
-        @if (Model.Image != null)
+        @if (Model.Image != null || Model.IsImageOnDisk)
         {
             <dt>Billede</dt>
             <dd>

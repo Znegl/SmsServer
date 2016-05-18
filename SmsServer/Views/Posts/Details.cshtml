@@ -50,7 +50,7 @@
         <dd>
             @Html.DisplayFor(model => model.WrongAnswerText)
         </dd>
-        @if (Model.Image != null)
+        @if (Model.Image != null || Model.IsImageOnDisk)
         {
             <dt>Billede:</dt>
             <dd>
