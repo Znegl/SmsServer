@@ -26,6 +26,14 @@
             @Html.DisplayFor(model => model.Text)
         </dd>
 
+        <dt>
+            Antal point
+        </dt>
+
+        <dd>
+            @Model.PointValue
+        </dd>
+
         @if (Model.NextPost != null)
         {
             <dt>Næste post</dt>

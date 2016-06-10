@@ -68,7 +68,9 @@ var showPosts = function (posts) {
         if (post.lattitude != 0 || post.longitude != 0) {
             var m = L.marker([post.lattitude, post.longitude]);
             var newHtml = $('.showPostMarker').clone();
-            $('.posttitle', newHtml).html((i+1) + ': ' + post.Title);
+            $('.posttitle', newHtml).html((i + 1) + ': ' + post.Title);
+            console.log($('.edit', newHtml));
+            $('a', newHtml).attr('href', '/posts/edit/' + post.Id);
             m.bindPopup(newHtml.html());
             m.addTo(map);
             allMarkers.push(m);
@@ -80,6 +82,12 @@ var showPosts = function (posts) {
         map.fitBounds(group.getBounds());
     }
 };
+
+//From: http://stackoverflow.com/questions/4907843/open-a-url-in-a-new-tab-and-not-a-new-window-using-javascript
+function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+}
 
 var updatePostsOnMap = function () {
     $.getJSON('/api/getAllPosts/' + raceid, {}, function (data) {

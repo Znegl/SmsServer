@@ -19,6 +19,8 @@
             Svar tekst
         </th>
         <th>Næste post (hvis en er sat)</th>
+        <th>Antal point ved besvarelse af denne post</th>
+        <th></th>
         <th></th>
     </tr>
 
@@ -39,6 +41,9 @@
             {
                 <text>Ingen post valgt</text>
             }
+        </td>
+        <td>
+            @item.PointValue
         </td>
         <td>
             @if (item.CorrectAnswer)

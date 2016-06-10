@@ -254,7 +254,7 @@ namespace SmsServer.Controllers
                 if (item.Team != null)
                 {
                     if (!teamscore.Keys.Contains(item.Team))
-                        teamscore[item.Team] = 0.0;
+                        teamscore[item.Team] = item.ChosenAnswer.PointValue;
                     else
                         teamscore[item.Team] += item.ChosenAnswer.PointValue;
                 }
@@ -285,7 +285,7 @@ namespace SmsServer.Controllers
                 if (item.Team != null)
                 {
                     if (!teamscore.Keys.Contains(item.Team))
-                        teamscore[item.Team] = 0.0;
+                        teamscore[item.Team] = item.ChosenAnswer.PointValue;
                     else
                         teamscore[item.Team] += item.ChosenAnswer.PointValue;
                 }

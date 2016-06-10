@@ -292,17 +292,26 @@ namespace SmsServer.Controllers
 
             var p = db.Posts.Find(Session["PostToAnswer"]);
             var pa = p.Answers.Where(k => k.Id == answerid).FirstOrDefault();
-            var a = new Answer
+
+            Answer answerIsThere = null;
+            answerIsThere = db.Answers.Where(a => a.Team.Id == team.Id && a.ChosenAnswer.Id == pa.Id && a.Post.Id == p.Id).FirstOrDefault();
+
+            
+
+            if (answerIsThere == null)
             {
-                AnsweredAt = DateTime.Now,
-                Team = team,
-                ChosenAnswer = pa,
-                Post = p,
-                Sms = null,
-                CorrectAnswerChosen = pa.CorrectAnswer
-            };
-            db.Answers.Add(a);
-            db.SaveChanges();
+                var a = new Answer
+                {
+                    AnsweredAt = DateTime.Now,
+                    Team = team,
+                    ChosenAnswer = pa,
+                    Post = p,
+                    Sms = null,
+                    CorrectAnswerChosen = pa.CorrectAnswer
+                };
+                db.Answers.Add(a);
+                db.SaveChanges();
+            }
             var textToShow = new List<String>();
             textToShow.Add((pa.CorrectAnswer ? p.CorrectAnswerText : p.WrongAnswerText));
 
