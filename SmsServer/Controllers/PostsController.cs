@@ -244,6 +244,7 @@ namespace SmsServer.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public FileContentResult GetImage(int id)
         {
             Post post= db.Posts.Find(id);
