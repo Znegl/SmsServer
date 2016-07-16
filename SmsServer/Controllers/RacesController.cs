@@ -229,6 +229,8 @@ namespace SmsServer.Controllers
             {
                 return HttpNotFound();
             }
+            var posts = db.Posts.Include(p => p.Answers).Where(p => p.RaceID == id).ToList();
+            db.Posts.RemoveRange(posts);
             db.Races.Remove(race);
             db.SaveChanges();
             return RedirectToAction("Index");

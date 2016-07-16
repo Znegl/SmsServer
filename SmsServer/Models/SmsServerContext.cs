@@ -18,5 +18,14 @@ namespace SmsServer.Models
         public DbSet<Answer> Answers { get; set; }
         public DbSet<SentSms> SentSmses { get; set; }
         public DbSet<DelayedSms> DelayedSmses { get; set; }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    //TODO Fix. s.t. it works
+        //    //modelBuilder.Entity<Post>().HasMany(e => e.Answers).WithOptional(p => p.Post).WillCascadeOnDelete(true);
+        //    //modelBuilder.Entity<Race>().HasMany(e => e.Posts).WithOptional(p => p.Race).WillCascadeOnDelete(true);
+        //}
     }
 }
