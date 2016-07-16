@@ -144,6 +144,8 @@ namespace SmsServer.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (post.Text == string.Empty)
+                    post.Text = "";
                 var r = db.Races.Find(Session["RaceID"]);
                 if (r.Owner == GetUserNameFromRequest())
                 {
@@ -238,6 +240,8 @@ namespace SmsServer.Controllers
             var haveRace = db.Races.Find(Session["RaceID"]).Posts.IndexOf(post) >= 0;
             if (haveRace)
             {
+                //TODO Delete all post answers (using cascade delete)
+                post = db.Posts.Include(m => m.Answers).Where(p => p.Id == id).FirstOrDefault();
                 db.Posts.Remove(post);
                 db.SaveChanges();
             }

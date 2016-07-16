@@ -123,7 +123,9 @@ namespace SmsServer.Controllers
                 postsSelectItems.Add(new SelectListItem { Text = "Ingen", Value = "0", Selected = true });
             }
             ViewBag.PostsToChoose = postsSelectItems;
-            return View();
+            var newAnswer = new PostAnswer();
+            newAnswer.PointValue = 0;
+            return View(newAnswer);
         }
 
         // POST: PostAnswers/Create
