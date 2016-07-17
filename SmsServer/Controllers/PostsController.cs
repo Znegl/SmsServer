@@ -241,7 +241,9 @@ namespace SmsServer.Controllers
             if (haveRace)
             {
                 //TODO Delete all post answers (using cascade delete)
+                var answers = db.Answers.Where(a => a.Post.Id == id).ToList();
                 post = db.Posts.Include(m => m.Answers).Where(p => p.Id == id).FirstOrDefault();
+                db.Answers.RemoveRange(answers);
                 db.Posts.Remove(post);
                 db.SaveChanges();
             }

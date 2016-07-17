@@ -382,6 +382,7 @@
     <Content Include="Views\Posts\AnswerWebPost.cshtml" />
     <Content Include="Views\Posts\PlacePost.cshtml" />
     <Content Include="Views\Races\GetPointResultForRace.cshtml" />
+    <Content Include="Views\Teams\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

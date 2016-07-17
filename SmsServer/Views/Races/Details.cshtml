@@ -102,6 +102,7 @@
                 <th>Korrekt besvaret</th>
                 <th>Antal poster besvaret korrekt/ej korrekt</th>
                 <th>Score</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -112,7 +113,10 @@
                     <td>@(item.CorrectAnswerChosen ? "Ja" : "Nej")</td>
                     <td>@item.count</td>
                     <td>@(item.Team != null ? scores[item.Team] : 0.0f)</td>
-                </tr>
+                    <td>@if (item.Team != null)
+                    { <span>@Html.ActionLink("Slet", "Delete", "Teams", new { id = item.Team.Id }, null)</span> }</td>
+
+            </tr>
             }
         </tbody>
     </table>

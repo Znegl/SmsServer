@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -38,6 +39,38 @@ namespace SmsServer.Controllers
             return RedirectToAction("ShowPostForAnswer", "Home", new { postid=Session["PostToAnswer"] });
         }
 
+        // GET: Posts/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Team team = context.Teams.Find(id);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+            return View(team);
+        }
+
+        // POST: Posts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Team team = context.Teams.Include("Members").Where(t => t.Id == id).FirstOrDefault();
+            var answers = context.Answers.Where(a => a.Team.Id == id).ToList();
+            context.Answers.RemoveRange(answers);
+            context.Teams.Remove(team);
+            context.SaveChanges();
+            if (Session["RaceId"] == null)
+            {
+                return RedirectToAction("Index", "Races");
+            }
+            else
+                return RedirectToAction("Index", "Races", new { id = (int)Session["RaceId"] });
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
