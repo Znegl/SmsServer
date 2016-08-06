@@ -75,6 +75,10 @@ namespace SmsServer.Models
 
         public bool ShowWebAnswerQR { get; set; }
 
+        [HiddenInput(DisplayValue = false)]
+        public string ImageMimeType { get; set; }
+        public Boolean IsImageOnDisk { get; set; }
+
         //Guid from application user.
         public string Owner { get; set; }
 

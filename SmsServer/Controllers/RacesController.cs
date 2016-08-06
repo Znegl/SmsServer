@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using SmsServer.Models;
 using System.IO;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace SmsServer.Controllers
 {
@@ -142,7 +144,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] //Remembefr to put these in later: 
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race, HttpPostedFileBase image)
         {
             //race.Owner = User.Identity.Name.ToString();
             //race.Start = DateTime.Now;
@@ -153,10 +155,79 @@ namespace SmsServer.Controllers
             {
                 db.Races.Add(race);
                 db.SaveChanges();
+                if (image != null)
+                {
+                    race.ImageMimeType = image.ContentType;
+                    race.IsImageOnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"race_{race.Id}");
+                    var imageData = ReadAndResizeImage(image, 100, 100);
+                    System.IO.File.WriteAllBytes(path, imageData);
+                }
+                db.SaveChanges();
+
                 return RedirectToAction("Details", new { id = race.Id });
             }
 
             return View(race);
+        }
+        private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
+        {
+            var imageData = new byte[image.ContentLength];
+            var imgOrig = Image.FromStream(image.InputStream);
+            if (imgOrig.Width < maxWidth && imgOrig.Height < maxHeight)
+            {
+                MemoryStream ms2 = new MemoryStream();
+                imgOrig.Save(ms2, imgOrig.RawFormat);
+                return ms2.ToArray();
+            }
+
+            var lnRatio = 0.0m;
+            int lnNewWidth = 0;
+            int lnNewHeight = 0;
+
+            if (imgOrig.Width > imgOrig.Height)
+            {
+                lnRatio = (decimal)maxWidth / imgOrig.Width;
+                lnNewWidth = maxWidth;
+                decimal lnTemp = imgOrig.Height * lnRatio;
+                lnNewHeight = (int)lnTemp;
+            }
+            else
+            {
+                lnRatio = (decimal)maxHeight / imgOrig.Height;
+                lnNewHeight = maxHeight;
+                decimal lnTemp = imgOrig.Width * lnRatio;
+                lnNewWidth = (int)lnTemp;
+            }
+
+            Image resizedImg = new Bitmap(lnNewWidth, lnNewHeight, imgOrig.PixelFormat);
+            Graphics g = Graphics.FromImage(resizedImg);
+            g.CompositingQuality = CompositingQuality.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            Rectangle rect = new Rectangle(0, 0, lnNewWidth, lnNewHeight);
+            g.DrawImage(imgOrig, rect);
+            MemoryStream ms = new MemoryStream();
+            resizedImg.Save(ms, imgOrig.RawFormat);
+            return ms.ToArray();
+        }
+
+        public FileContentResult GetImage(int id)
+        {
+            Race race = db.Races.Find(id);
+            if (race != null && race.IsImageOnDisk)
+            {
+                var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"race_{race.Id}"));
+                return File(data, race.ImageMimeType);
+            }
+            //else if (race != null)
+            //{
+            //    return File(race.Image, race.ImageMimeType);
+            //}
+            else
+            {
+                return null;
+            }
         }
 
         // GET: Races/Edit/5
@@ -179,7 +250,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -197,6 +268,14 @@ namespace SmsServer.Controllers
                 raceFromDb.GatewayNumber = race.GatewayNumber;
                 raceFromDb.ShowNextPost = race.ShowNextPost;
                 raceFromDb.ShowWebAnswerQR = race.ShowWebAnswerQR;
+                if (image != null)
+                {
+                    raceFromDb.ImageMimeType = image.ContentType;
+                    raceFromDb.IsImageOnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"race_{raceFromDb.Id}");
+                    var imageData = ReadAndResizeImage(image, 100, 100);
+                    System.IO.File.WriteAllBytes(path, imageData);
+                }
                 //db.Entry(race).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

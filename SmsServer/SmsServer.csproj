@@ -286,6 +286,10 @@
     <Compile Include="Migrations\201608060420410_ShowHideWebQR.Designer.cs">
       <DependentUpon>201608060420410_ShowHideWebQR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608060441330_AddedLogoImageToRace.cs" />
+    <Compile Include="Migrations\201608060441330_AddedLogoImageToRace.Designer.cs">
+      <DependentUpon>201608060441330_AddedLogoImageToRace.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -464,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608060420410_ShowHideWebQR.resx">
       <DependentUpon>201608060420410_ShowHideWebQR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608060441330_AddedLogoImageToRace.resx">
+      <DependentUpon>201608060441330_AddedLogoImageToRace.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
