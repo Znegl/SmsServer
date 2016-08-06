@@ -212,6 +212,7 @@ namespace SmsServer.Controllers
             return ms.ToArray();
         }
 
+        [AllowAnonymous]
         public FileContentResult GetImage(int id)
         {
             Race race = db.Races.Find(id);

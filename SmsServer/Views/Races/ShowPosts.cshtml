@@ -49,7 +49,7 @@
         <div class="LogoImage">
             @if (item.Race.IsImageOnDisk)
                 {
-                <img src="@Url.Action("GetImage", "Races", new { id=item.Id})" />
+                <img src="@Url.Action("GetImage", "Races", new { id=item.Race.Id})" />
             }
         </div>
         <h5>Post ID: @item.Id</h5>
