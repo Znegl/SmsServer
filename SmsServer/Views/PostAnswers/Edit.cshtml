@@ -32,7 +32,7 @@
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
-        @if (Model.Image != null)
+        @if (Model.Image != null || Model.IsImageOnDisk)
         {
             <div class="form-group">
                 <label class="control-label col-md-2">Nuværende billede:</label>
