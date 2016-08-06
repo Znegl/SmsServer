@@ -73,6 +73,8 @@ namespace SmsServer.Models
 
         public bool ShowNextPost { get; set; }
 
+        public bool ShowWebAnswerQR { get; set; }
+
         //Guid from application user.
         public string Owner { get; set; }
 

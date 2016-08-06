@@ -142,7 +142,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] //Remembefr to put these in later: 
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost")] Race race)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race)
         {
             //race.Owner = User.Identity.Name.ToString();
             //race.Start = DateTime.Now;
@@ -179,7 +179,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost")] Race race)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race)
         {
             if (ModelState.IsValid)
             {
@@ -196,6 +196,7 @@ namespace SmsServer.Controllers
                 raceFromDb.ContactNumber = race.ContactNumber;
                 raceFromDb.GatewayNumber = race.GatewayNumber;
                 raceFromDb.ShowNextPost = race.ShowNextPost;
+                raceFromDb.ShowWebAnswerQR = race.ShowWebAnswerQR;
                 //db.Entry(race).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
