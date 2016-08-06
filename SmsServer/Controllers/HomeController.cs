@@ -42,7 +42,8 @@ namespace SmsServer.Controllers
             Session["RaceId"] = race.Id;
             if (Session["TeamId"] != null)
             {
-                return RedirectToAction("ConfirmTeam", new { postid = postid });
+                return RedirectToAction("ShowPostForAnswer", "Home", new { postid = postid });
+                //return RedirectToAction("ConfirmTeam", new { postid = postid });
             }
             else
             {
