@@ -12,6 +12,39 @@ namespace SmsServer.Controllers
     {
         private SmsServerContext context = new SmsServerContext();
 
+        public ActionResult ListTeamsForRace(int id)
+        {
+            var teams = context.Teams.Where(t => t.Race.Id == id).ToList();
+            return View(teams);
+        }
+
+        public ActionResult AdminCreate(int id)
+        {
+            Session["RaceId"] = id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AdminCreate(string TeamName)
+        {
+            if (string.IsNullOrEmpty(TeamName) || string.IsNullOrWhiteSpace(TeamName))
+                return View("AdminCreate");
+
+            var team = new Team();
+            team.TeamName = TeamName;
+            team.HoldID = TeamName;
+            var raceFromSession = (int)Session["RaceId"];
+            var race = context.Races.Where(r => r.Id == raceFromSession).FirstOrDefault();
+            if (race == null)
+                return RedirectToAction("Index", "Home");
+
+            team.Race = race;
+            context.Teams.Add(team);
+            context.SaveChanges();
+            Session["TeamCreated"] = "Team was created";
+            return RedirectToAction("AdminCreate", "Teams");
+        }
+
         // GET: Teams
         public ActionResult Create()
         {

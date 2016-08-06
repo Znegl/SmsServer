@@ -62,7 +62,10 @@
             @Html.ActionLink("Slet", "Delete", new { id=item.Id }) | 
             @Html.ActionLink("Download svar som CSV", "GetAllAnswersForRace", new { id=item.Id}) |
             @Html.ActionLink("Se point for hold", "GetPointResultForRace", new { id = item.Id }) |
-            @Html.ActionLink("Download point status som CSV", "DownloadPointsAsCSV", new { id = item.Id })
+            @Html.ActionLink("Download point status som CSV", "DownloadPointsAsCSV", new { id = item.Id }) | 
+            @Html.ActionLink("Tilføj hold", "AdminCreate", "Teams", new { id = item.Id }, null) |
+            @Html.ActionLink("Se hold", "ListTeamsForRace", "Teams", new { id = item.Id }, null)
+            
         </td>
     </tr>
 }
