@@ -495,6 +495,7 @@ namespace SmsServer.Controllers
         public ActionResult GetTeamStatus()
         {
             var checkins = db.Checkins.Where(c => c.CheckOut == null).Include("Post").Include("Team").ToList();
+            ViewBag.WithCheckouts = db.Checkins.Where(c => c.CheckOut != null).Include("Post").Include("Team").ToList();
             return View(checkins);
         }
 

@@ -2,9 +2,10 @@
 
 @{
     ViewBag.Title = "Hold status";
+    var ListOfCheckinsWithCheckout = (List<SmsServer.Models.Checkin>) ViewBag.WithCheckouts;
 }
 
-<h2>GetTeamStatus</h2>
+<h2>Hold der er på post</h2>
 
 <table class="table">
     <tr>
@@ -32,5 +33,42 @@
         </td>
     </tr>
 }
+
+</table>
+<h2>Hold der ikke er på post</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Post.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Team.TeamName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckIn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckOut)
+        </th>
+        </tr>
+
+    @foreach (var item in ListOfCheckinsWithCheckout)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Post.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.TeamName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckOut)
+            </td>        </tr>
+    }
 
 </table>

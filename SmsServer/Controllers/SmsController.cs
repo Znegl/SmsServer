@@ -83,6 +83,10 @@ namespace SmsServer.Controllers
                 }
             }
 
+            var checkinForTeam = context.Checkins.Where(c => c.TeamId == team.Id && c.PostId == p.Id).ToList();
+            checkinForTeam.ForEach(s => s.CheckOut = DateTime.Now);
+            context.SaveChanges();
+
             return textToShow;
         }
 

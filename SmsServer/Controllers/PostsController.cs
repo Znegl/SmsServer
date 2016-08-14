@@ -333,6 +333,10 @@ namespace SmsServer.Controllers
                 }
             }
 
+            var checkinForTeam = db.Checkins.Where(c => c.TeamId == team.Id && c.PostId == p.Id).ToList();
+            checkinForTeam.ForEach(s => s.CheckOut = DateTime.Now);
+            db.SaveChanges();
+
             ViewBag.TextToShow = textToShow;
             return View("AnswerWebPost");
         }
