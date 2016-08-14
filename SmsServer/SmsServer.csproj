@@ -290,6 +290,14 @@
     <Compile Include="Migrations\201608060441330_AddedLogoImageToRace.Designer.cs">
       <DependentUpon>201608060441330_AddedLogoImageToRace.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608141424122_AddedCheckin.cs" />
+    <Compile Include="Migrations\201608141424122_AddedCheckin.Designer.cs">
+      <DependentUpon>201608141424122_AddedCheckin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608141810248_AddedShowPostCheckinToRace.cs" />
+    <Compile Include="Migrations\201608141810248_AddedShowPostCheckinToRace.Designer.cs">
+      <DependentUpon>201608141810248_AddedShowPostCheckinToRace.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -393,6 +401,9 @@
     <Content Include="Views\Teams\Delete.cshtml" />
     <Content Include="Views\Teams\AdminCreate.cshtml" />
     <Content Include="Views\Teams\ListTeamsForRace.cshtml" />
+    <Content Include="Views\Races\GetTeamStatus.cshtml" />
+    <Content Include="Views\Posts\CheckInTeam.cshtml" />
+    <Content Include="Views\Posts\ChooseTeamForCheckin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -471,6 +482,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608060441330_AddedLogoImageToRace.resx">
       <DependentUpon>201608060441330_AddedLogoImageToRace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608141424122_AddedCheckin.resx">
+      <DependentUpon>201608141424122_AddedCheckin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608141810248_AddedShowPostCheckinToRace.resx">
+      <DependentUpon>201608141810248_AddedShowPostCheckinToRace.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

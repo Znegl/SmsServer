@@ -347,6 +347,45 @@ namespace SmsServer.Controllers
             return View();
         }
 
+        public ActionResult CheckInTeam(int id, int teamid)
+        {
+            Session["TeamId"] = teamid;
+            return CheckInTeam(id);
+        }
+
+        public ActionResult CheckInTeam(int id)
+        {
+            var post = db.Posts.Find(id);
+            if (post == null)
+            {
+                //404 not found
+                return HttpNotFound();
+            }
+
+            //Find team
+            if (Session["TeamId"] == null)
+            {
+                var race = post.Race;
+                Session["RaceId"] = race.Id;
+                Session["PostToAnswer"] = id;
+                var teams = db.Teams.Where(t => t.Race.Id == race.Id).ToList();
+                ViewBag.PostId = id;
+                return View("ChooseTeamForCheckin", teams);
+
+            }
+            var team = db.Teams.Find(int.Parse(Session["TeamId"].ToString()));
+            //Create checkin for team
+            var checkin = new Checkin
+            {
+                CheckIn = DateTime.Now,
+                Post = post,
+                Team = team
+            };
+            db.Checkins.Add(checkin);
+            db.SaveChanges();
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

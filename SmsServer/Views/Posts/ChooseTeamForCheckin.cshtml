@@ -1,0 +1,19 @@
+﻿@model IList<SmsServer.Models.Team>
+
+@{
+    ViewBag.Title = "ChooseTeamForCheckin";
+}
+
+<h2>ChooseTeamForCheckin</h2>
+
+<h2>Vælg hold</h2>
+<p>
+    Vælg dit hold:<br />
+    @foreach (var item in Model)
+    {
+        @Html.ActionLink(item.TeamName, "CheckInTeam", "Posts", new { id = ViewBag.PostId, teamid = item.Id }, null) <br />
+    }
+</p>
+@*<p>
+    Tryk her for at oprette nyt hold: @Html.ActionLink("Opret hold", "CreateTeam", new { postid = ViewBag.PostId }, null)
+</p>*@

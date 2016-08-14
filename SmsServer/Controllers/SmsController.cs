@@ -12,7 +12,7 @@ namespace SmsServer.Controllers
     {
         private SmsServerContext context = new SmsServerContext();
 
-        private enum SmsType { Answer, CreateTeam, Admin };
+        private enum SmsType { Answer, CreateTeam, Admin, Checkin };
 
         [HttpPost]
         [SmsGatewayAuthorizationFilter]
@@ -134,6 +134,27 @@ namespace SmsServer.Controllers
             return "Hold oprettet";
         }
 
+        public string CheckInTeam(string sender, int postId, string raceId)
+        {
+            //Find team
+            var team = FindByNumber(sender, raceId);
+            if (team == null)
+            {
+                return "Du er ikke kendt på holdet";
+            }
+            var post = context.Posts.Find(postId);
+            //Create checkin for team
+            var checkin = new Checkin
+            {
+                CheckIn = DateTime.Now,
+                Post = post,
+                Team = team
+            };
+            context.Checkins.Add(checkin);
+            context.SaveChanges();
+            return "Holdet er checket ind på posten";
+        }
+
         //TODO Error handling when sms data is not in correct format and correct length
         private string processSms(Sms sms)
         {
@@ -158,6 +179,19 @@ namespace SmsServer.Controllers
                 case "ct":
                     type = SmsType.CreateTeam;
                     res = CreateTeam(sender, data.Skip(2).ToList());
+                    break;
+                case "ci":
+                    type = SmsType.Checkin;
+                    int postid;
+                    var parse_res = int.TryParse(data[2], out postid);
+                    if (!parse_res)
+                    {
+                        res = "Der skete en fejl";
+                    }
+                    else
+                    {
+                        res = CheckInTeam(sender, postId: postid, raceId: data[3]);
+                    }
                     break;
             }
             return res;

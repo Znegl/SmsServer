@@ -43,6 +43,31 @@
 
 
 @foreach (var item in Model.Posts) {
+    if (item.Race.ShowCheckinForPost)
+    {
+    <hr />
+    <div class="PostCheckin">
+        <h3>Check in på @item.Title</h3>
+        @{
+            var checkinText = "#ci#" + item.Id + "#" + Model.Id + "#";
+            var completeCheckinText = "smsto:" + Model.GatewayNumber + ":" + checkinText;
+        }
+        <div class="qrcode">
+            @Html.GenerateRelayQrCode("hest", completeCheckinText, height: 150, width: 150, margin: 5)
+        </div>
+        <div>
+            Send @checkinText to @Model.GatewayNumber.
+        </div>
+@if (item.Race.ShowWebAnswerQR)
+{
+    <div class="qrcode">
+        Checkin på nettet
+        @Html.GenerateRelayQrCode("hest", @Url.Action("CheckInTeam", "Posts", new { id = item.Id }, this.Request.Url.Scheme), height: 150, width: 150, margin: 5)
+    </div>
+}
+    </div>
+            }
+            <div class="linefeed"></div>
     <hr />
     <div class="Post">
             <h3>@item.Title</h3>

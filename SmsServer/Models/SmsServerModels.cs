@@ -8,6 +8,21 @@ using System.Web.Mvc;
 
 namespace SmsServer.Models
 {
+    public class Checkin
+    {
+        public int Id { get; set; }
+        
+        public DateTime CheckIn { get; set; }
+        public DateTime? CheckOut { get; set; }
+
+
+        public virtual Team Team { get; set; }
+        public int TeamId { get; set; }
+
+        public virtual Post Post { get; set; }
+        public int PostId { get; set; }
+    }
+
     public class Post
     {
         public int Id { get; set; }
@@ -78,6 +93,8 @@ namespace SmsServer.Models
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
         public Boolean IsImageOnDisk { get; set; }
+
+        public bool ShowCheckinForPost { get; set; }
 
         //Guid from application user.
         public string Owner { get; set; }

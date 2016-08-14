@@ -18,6 +18,7 @@ namespace SmsServer.Models
         public DbSet<Answer> Answers { get; set; }
         public DbSet<SentSms> SentSmses { get; set; }
         public DbSet<DelayedSms> DelayedSmses { get; set; }
+        public DbSet<Checkin> Checkins { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

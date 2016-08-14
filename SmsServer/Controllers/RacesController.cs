@@ -144,7 +144,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] //Remembefr to put these in later: 
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost")] Race race, HttpPostedFileBase image)
         {
             //race.Owner = User.Identity.Name.ToString();
             //race.Start = DateTime.Now;
@@ -251,7 +251,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR")] Race race, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost")] Race race, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -269,6 +269,7 @@ namespace SmsServer.Controllers
                 raceFromDb.GatewayNumber = race.GatewayNumber;
                 raceFromDb.ShowNextPost = race.ShowNextPost;
                 raceFromDb.ShowWebAnswerQR = race.ShowWebAnswerQR;
+                raceFromDb.ShowCheckinForPost = race.ShowCheckinForPost;
                 if (image != null)
                 {
                     raceFromDb.ImageMimeType = image.ContentType;
@@ -489,6 +490,12 @@ namespace SmsServer.Controllers
             //Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", (Request.Browser.Browser == "IE") ? HttpUtility.UrlEncode(fileName, encoding) : fileName));
 
             return File(data, "text/csv", "answers_for_race.csv");
+        }
+
+        public ActionResult GetTeamStatus()
+        {
+            var checkins = db.Checkins.Where(c => c.CheckOut == null).Include("Post").Include("Team").ToList();
+            return View(checkins);
         }
 
         [AllowAnonymous]
