@@ -502,9 +502,9 @@ namespace SmsServer.Controllers
         [AllowAnonymous]
         public ActionResult CleanNumbers()
         {
-            var dateToCheck = DateTime.Now.AddHours(4);
-            var racesToFix = db.Races.Where(r => r.End < dateToCheck).ToList();
-            var smsToFix = db.Smses.Where(s => s.Received < dateToCheck).ToList();
+            var dateToCheck = DateTime.Now;
+            var racesToFix = db.Races.Where(r => r.End < dateToCheck && r.GatewayNumber != "+4512312312").ToList();
+            var smsToFix = db.Smses.Where(s => s.Received < dateToCheck && s.Sender != "+4512312312").ToList();
             var teamMembersToFix = new List<Team>();
             racesToFix.ForEach(r => 
             {
