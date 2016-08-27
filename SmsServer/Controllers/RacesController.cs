@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using SmsServer.Helpers;
 
 namespace SmsServer.Controllers
 {
@@ -160,7 +161,7 @@ namespace SmsServer.Controllers
                     race.ImageMimeType = image.ContentType;
                     race.IsImageOnDisk = true;
                     var path = Path.Combine(Server.MapPath("~/images/"), $"race_{race.Id}");
-                    var imageData = ReadAndResizeImage(image, 100, 100);
+                    var imageData = ImageHandler.ReadAndResizeImage(image, 100, 100);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
                 db.SaveChanges();
@@ -170,47 +171,7 @@ namespace SmsServer.Controllers
 
             return View(race);
         }
-        private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
-        {
-            var imageData = new byte[image.ContentLength];
-            var imgOrig = Image.FromStream(image.InputStream);
-            if (imgOrig.Width < maxWidth && imgOrig.Height < maxHeight)
-            {
-                MemoryStream ms2 = new MemoryStream();
-                imgOrig.Save(ms2, imgOrig.RawFormat);
-                return ms2.ToArray();
-            }
 
-            var lnRatio = 0.0m;
-            int lnNewWidth = 0;
-            int lnNewHeight = 0;
-
-            if (imgOrig.Width > imgOrig.Height)
-            {
-                lnRatio = (decimal)maxWidth / imgOrig.Width;
-                lnNewWidth = maxWidth;
-                decimal lnTemp = imgOrig.Height * lnRatio;
-                lnNewHeight = (int)lnTemp;
-            }
-            else
-            {
-                lnRatio = (decimal)maxHeight / imgOrig.Height;
-                lnNewHeight = maxHeight;
-                decimal lnTemp = imgOrig.Width * lnRatio;
-                lnNewWidth = (int)lnTemp;
-            }
-
-            Image resizedImg = new Bitmap(lnNewWidth, lnNewHeight, imgOrig.PixelFormat);
-            Graphics g = Graphics.FromImage(resizedImg);
-            g.CompositingQuality = CompositingQuality.HighQuality;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            Rectangle rect = new Rectangle(0, 0, lnNewWidth, lnNewHeight);
-            g.DrawImage(imgOrig, rect);
-            MemoryStream ms = new MemoryStream();
-            resizedImg.Save(ms, imgOrig.RawFormat);
-            return ms.ToArray();
-        }
 
         [AllowAnonymous]
         public FileContentResult GetImage(int id)
@@ -275,7 +236,7 @@ namespace SmsServer.Controllers
                     raceFromDb.ImageMimeType = image.ContentType;
                     raceFromDb.IsImageOnDisk = true;
                     var path = Path.Combine(Server.MapPath("~/images/"), $"race_{raceFromDb.Id}");
-                    var imageData = ReadAndResizeImage(image, 100, 100);
+                    var imageData = ImageHandler.ReadAndResizeImage(image, 100, 100);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
                 //db.Entry(race).State = EntityState.Modified;

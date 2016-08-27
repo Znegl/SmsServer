@@ -201,6 +201,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ImageHandler.cs" />
     <Compile Include="HtmlExtentions.cs" />
     <Compile Include="Migrations\201507301813537_InitialCreate.cs" />
     <Compile Include="Migrations\201507301813537_InitialCreate.Designer.cs">

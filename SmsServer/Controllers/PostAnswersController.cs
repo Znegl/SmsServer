@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
+using SmsServer.Helpers;
 
 namespace SmsServer.Controllers
 {
@@ -69,47 +70,6 @@ namespace SmsServer.Controllers
             return RedirectToAction("Index");
         }
 
-        private byte[] ReadAndResizeImage(HttpPostedFileBase image, int maxWidth, int maxHeight)
-        {
-            var imageData = new byte[image.ContentLength];
-            var imgOrig = Image.FromStream(image.InputStream);
-            if (imgOrig.Width < maxWidth && imgOrig.Height < maxHeight)
-            {
-                MemoryStream ms2 = new MemoryStream();
-                imgOrig.Save(ms2, imgOrig.RawFormat);
-                return ms2.ToArray();
-            }
-
-            var lnRatio = 0.0m;
-            int lnNewWidth = 0;
-            int lnNewHeight = 0;
-
-            if (imgOrig.Width > imgOrig.Height)
-            {
-                lnRatio = (decimal)maxWidth / imgOrig.Width;
-                lnNewWidth = maxWidth;
-                decimal lnTemp = imgOrig.Height * lnRatio;
-                lnNewHeight = (int)lnTemp;
-            }
-            else
-            {
-                lnRatio = (decimal)maxHeight / imgOrig.Height;
-                lnNewHeight = maxHeight;
-                decimal lnTemp = imgOrig.Width * lnRatio;
-                lnNewWidth = (int)lnTemp;
-            }
-
-            Image resizedImg = new Bitmap(lnNewWidth, lnNewHeight, imgOrig.PixelFormat);
-            Graphics g = Graphics.FromImage(resizedImg);
-            g.CompositingQuality = CompositingQuality.HighQuality;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            Rectangle rect = new Rectangle(0, 0, lnNewWidth, lnNewHeight);
-            g.DrawImage(imgOrig, rect);
-            MemoryStream ms = new MemoryStream();
-            resizedImg.Save(ms, imgOrig.RawFormat);
-            return ms.ToArray();
-        }
         // GET: PostAnswers/Create
         public ActionResult Create()
         {
@@ -160,7 +120,7 @@ namespace SmsServer.Controllers
                     postAnswer.ImageMimeType = image.ContentType;
                     postAnswer.IsImageOnDisk = true;
                     var path = Path.Combine(Server.MapPath("~/images/"), $"postanswer_{postAnswer.Id}");
-                    var imageData = ReadAndResizeImage(image, 200, 200);
+                    var imageData = ImageHandler.ReadAndResizeImage(image, 200, 200);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
                 db.SaveChanges();
@@ -215,7 +175,7 @@ namespace SmsServer.Controllers
                     postAnswer.ImageMimeType = image.ContentType;
                     postAnswer.IsImageOnDisk = true;
                     var path = Path.Combine(Server.MapPath("~/images/"), $"postanswer_{postAnswer.Id}");
-                    var imageData = ReadAndResizeImage(image, 200, 200);
+                    var imageData = ImageHandler.ReadAndResizeImage(image, 200, 200);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
                 if (nextPostId > 0)
