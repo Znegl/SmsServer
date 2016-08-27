@@ -145,11 +145,12 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] //Remembefr to put these in later: 
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost")] Race race, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image)
         {
             //race.Owner = User.Identity.Name.ToString();
             //race.Start = DateTime.Now;
             //race.End = DateTime.Now.AddDays(1);
+            race.NoOfTriesPerPost = Math.Max(0, race.NoOfTriesPerPost);
             race.Owner = GetUserNameFromRequest();
             race.GatewayCode = Guid.NewGuid().ToString().Substring(0, 10);//.Replace('-','X');
             if (ModelState.IsValid)
@@ -212,7 +213,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost")] Race race, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -231,6 +232,7 @@ namespace SmsServer.Controllers
                 raceFromDb.ShowNextPost = race.ShowNextPost;
                 raceFromDb.ShowWebAnswerQR = race.ShowWebAnswerQR;
                 raceFromDb.ShowCheckinForPost = race.ShowCheckinForPost;
+                raceFromDb.NoOfTriesPerPost = race.NoOfTriesPerPost;
                 if (image != null)
                 {
                     raceFromDb.ImageMimeType = image.ContentType;

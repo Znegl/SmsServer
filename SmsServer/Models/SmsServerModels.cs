@@ -90,6 +90,10 @@ namespace SmsServer.Models
 
         public bool ShowWebAnswerQR { get; set; }
 
+        //0 = Maximum of tries is the numbers of answer per post
+        //X > 0 = X tries per post
+        public int NoOfTriesPerPost { get; set; }
+
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
         public Boolean IsImageOnDisk { get; set; }

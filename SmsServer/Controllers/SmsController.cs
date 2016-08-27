@@ -59,6 +59,14 @@ namespace SmsServer.Controllers
                 r = context.Races.Find(int.Parse(raceId));
             var p = r.Posts.Where(q => q.Id == int.Parse(postId)).FirstOrDefault();
             var pa = p.Answers.Where(k => k.Id == int.Parse(answerid)).FirstOrDefault();
+
+            var noOfTriesForTeam = context.Answers.Count(an => an.Team.Id == team.Id && an.Post.Id == p.Id);
+
+            if ((r.NoOfTriesPerPost > 0 && noOfTriesForTeam >= r.NoOfTriesPerPost) || (noOfTriesForTeam >= p.Answers.Count))
+            {
+                return "Posten er allerede besvaret";
+            }
+
             var a = new Answer
             {
                 AnsweredAt = DateTime.Now,

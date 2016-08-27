@@ -263,7 +263,13 @@ namespace SmsServer.Controllers
             Answer answerIsThere = null;
             answerIsThere = db.Answers.Where(a => a.Team.Id == team.Id && a.ChosenAnswer.Id == pa.Id && a.Post.Id == p.Id).FirstOrDefault();
 
-            
+            var noOfTriesForTeam = db.Answers.Count(a => a.Team.Id == team.Id && a.Post.Id == p.Id);
+
+            if ((r.NoOfTriesPerPost > 0 && noOfTriesForTeam >= r.NoOfTriesPerPost) || (noOfTriesForTeam >= p.Answers.Count))
+            {
+                ViewBag.TextToShow = new List<string> { "Posten er allerede besvaret" };
+                return View("AnswerWebPost");
+            }
 
             if (answerIsThere == null)
             {
