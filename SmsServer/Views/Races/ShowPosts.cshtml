@@ -18,7 +18,7 @@
     @Html.GenerateRelayQrCode("hest", createTeamComplete, height: 150, width: 150, margin: 5)
 </div>
 <div class="createteamtext">
-    Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
+    Send: @createTeam til @Model.GatewayNumber Husk at erstatte hold id og hold navn
 </div>
 @{
     var teams = (List<SmsServer.Models.Team>)ViewBag.Teams;
@@ -35,7 +35,7 @@
             @Html.GenerateRelayQrCode("hest", createTeamComplete, height: 150, width: 150, margin: 5)
         </div>
         <div class="createteamtext">
-            Send: @createTeam to @Model.GatewayNumber Husk at erstatte hold id og hold navn
+            Send: @createTeam til @Model.GatewayNumber Husk at erstatte hold id og hold navn
         </div>
     }
 }
@@ -56,7 +56,7 @@
             @Html.GenerateRelayQrCode("hest", completeCheckinText, height: 150, width: 150, margin: 5)
         </div>
         <div>
-            Send @checkinText to @Model.GatewayNumber.
+            Send @checkinText til @Model.GatewayNumber.
         </div>
 @if (item.Race.ShowWebAnswerQR)
 {
@@ -114,7 +114,7 @@
                         @Html.GenerateRelayQrCode("hest", completeText, height:150, width:150, margin:5)
                     </div>
                     <div class="PostAnswerText">
-                        Send: @answerText to @Model.GatewayNumber
+                        Send: @answerText til @Model.GatewayNumber
                     </div>
                 </div>
                         }
