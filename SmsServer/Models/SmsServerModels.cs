@@ -98,6 +98,10 @@ namespace SmsServer.Models
         public string ImageMimeType { get; set; }
         public Boolean IsImageOnDisk { get; set; }
 
+        [HiddenInput(DisplayValue = false)]
+        public string Image2MimeType { get; set; }
+        public Boolean IsImage2OnDisk { get; set; }
+
         public bool ShowCheckinForPost { get; set; }
 
         //Guid from application user.

@@ -303,6 +303,10 @@
     <Compile Include="Migrations\201608270832399_AddedNoOfTries.Designer.cs">
       <DependentUpon>201608270832399_AddedNoOfTries.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608271411207_addedlogo2.cs" />
+    <Compile Include="Migrations\201608271411207_addedlogo2.Designer.cs">
+      <DependentUpon>201608271411207_addedlogo2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AnswerStatForRace.cs" />
@@ -496,6 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608270832399_AddedNoOfTries.resx">
       <DependentUpon>201608270832399_AddedNoOfTries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608271411207_addedlogo2.resx">
+      <DependentUpon>201608271411207_addedlogo2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

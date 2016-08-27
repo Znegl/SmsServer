@@ -77,6 +77,12 @@
                 <img src="@Url.Action("GetImage", "Races", new { id=item.Race.Id})" />
             }
         </div>
+        <div class="Logo2Image">
+            @if (item.Race.IsImage2OnDisk)
+                {
+                <img src="@Url.Action("GetImage", "Races", new { id=item.Race.Id, logo=2})" />
+            }
+        </div>
         <h5>Post ID: @item.Id</h5>
         <p>
             @if (item.Race.ShowWebAnswerQR)

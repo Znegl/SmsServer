@@ -145,7 +145,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] //Remembefr to put these in later: 
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,Start,End,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image, HttpPostedFileBase image2)
         {
             //race.Owner = User.Identity.Name.ToString();
             //race.Start = DateTime.Now;
@@ -165,6 +165,14 @@ namespace SmsServer.Controllers
                     var imageData = ImageHandler.ReadAndResizeImage(image, 100, 100);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
+                if (image2 != null)
+                {
+                    race.Image2MimeType = image2.ContentType;
+                    race.IsImage2OnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"race_2_{race.Id}");
+                    var imageData = ImageHandler.ReadAndResizeImage(image2, 100, 100);
+                    System.IO.File.WriteAllBytes(path, imageData);
+                }
                 db.SaveChanges();
 
                 return RedirectToAction("Details", new { id = race.Id });
@@ -175,12 +183,17 @@ namespace SmsServer.Controllers
 
 
         [AllowAnonymous]
-        public FileContentResult GetImage(int id)
+        public FileContentResult GetImage(int id, int logo=1)
         {
             Race race = db.Races.Find(id);
-            if (race != null && race.IsImageOnDisk)
+            if (race != null && race.IsImageOnDisk && logo == 1)
             {
                 var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"race_{race.Id}"));
+                return File(data, race.ImageMimeType);
+            }
+            else if (race != null && race.IsImage2OnDisk && logo == 2)
+            {
+                var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"race_{logo}_{race.Id}"));
                 return File(data, race.ImageMimeType);
             }
             //else if (race != null)
@@ -213,7 +226,7 @@ namespace SmsServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "Id,Name,Start,End,Contact,ContactNumber,GatewayNumber,ShowNextPost,ShowWebAnswerQR,ShowCheckinForPost,NoOfTriesPerPost")] Race race, HttpPostedFileBase image, HttpPostedFileBase image2)
         {
             if (ModelState.IsValid)
             {
@@ -239,6 +252,14 @@ namespace SmsServer.Controllers
                     raceFromDb.IsImageOnDisk = true;
                     var path = Path.Combine(Server.MapPath("~/images/"), $"race_{raceFromDb.Id}");
                     var imageData = ImageHandler.ReadAndResizeImage(image, 100, 100);
+                    System.IO.File.WriteAllBytes(path, imageData);
+                }
+                if (image2 != null)
+                {
+                    raceFromDb.Image2MimeType = image2.ContentType;
+                    raceFromDb.IsImage2OnDisk = true;
+                    var path = Path.Combine(Server.MapPath("~/images/"), $"race_2_{raceFromDb.Id}");
+                    var imageData = ImageHandler.ReadAndResizeImage(image2, 100, 100);
                     System.IO.File.WriteAllBytes(path, imageData);
                 }
                 //db.Entry(race).State = EntityState.Modified;
