@@ -15,10 +15,14 @@ using SmsServer.Helpers;
 
 namespace SmsServer.Controllers
 {
-
+    [Authorize]
     public class PostAnswersController : Controller
     {
         private SmsServerContext db = new SmsServerContext();
+        private string GetUserNameFromRequest()
+        {
+            return User.Identity.Name.ToString();
+        }
 
         // GET: PostAnswers
         public ActionResult Index()
@@ -231,6 +235,8 @@ namespace SmsServer.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [AllowAnonymous]
         public FileContentResult GetImage(int id)
         {
             PostAnswer postAnswer = db.PostAnswers.Find(id);
@@ -248,6 +254,24 @@ namespace SmsServer.Controllers
                 return null;
             }
         }
+
+        public ActionResult RemoveImage(int id)
+        {
+            var r = db.Races.Find(Session["RaceID"]);
+            if (r.Owner == GetUserNameFromRequest())
+            {
+                PostAnswer postAnswer = db.PostAnswers.Find(id);
+                if (postAnswer != null && postAnswer.IsImageOnDisk)
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/images/"), $"post_{postAnswer.Id}"));
+                    postAnswer.IsImageOnDisk = false;
+                    postAnswer.ImageMimeType = "";
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Edit", new { id = id });
+        }
+
 
         protected override void Dispose(bool disposing)
         {

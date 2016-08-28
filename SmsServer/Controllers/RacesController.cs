@@ -181,6 +181,29 @@ namespace SmsServer.Controllers
             return View(race);
         }
 
+        public ActionResult RemoveImage(int id, int logo=1)
+        {
+            Race race = db.Races.Find(id);
+            if (race.Owner == GetUserNameFromRequest())
+            {
+                if (race != null && race.IsImageOnDisk && logo == 1)
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/images/"), $"race_{race.Id}"));
+                    race.ImageMimeType = "";
+                    race.IsImageOnDisk = false;
+                    db.SaveChanges();
+                }
+                else if (race != null && race.IsImage2OnDisk && logo == 2)
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/images/"), $"race_{logo}_{race.Id}"));
+                    race.Image2MimeType = "";
+                    race.IsImage2OnDisk = false;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Edit", new { id = id });
+        }
+
 
         [AllowAnonymous]
         public FileContentResult GetImage(int id, int logo=1)
@@ -194,7 +217,7 @@ namespace SmsServer.Controllers
             else if (race != null && race.IsImage2OnDisk && logo == 2)
             {
                 var data = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath("~/images/"), $"race_{logo}_{race.Id}"));
-                return File(data, race.ImageMimeType);
+                return File(data, race.Image2MimeType);
             }
             //else if (race != null)
             //{

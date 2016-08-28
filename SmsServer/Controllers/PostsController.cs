@@ -229,6 +229,23 @@ namespace SmsServer.Controllers
             }
         }
 
+        public ActionResult RemoveImage(int id)
+        {
+            var r = db.Races.Find(Session["RaceID"]);
+            if (r.Owner == GetUserNameFromRequest())
+            {
+                Post post = db.Posts.Find(id);
+                if (post != null && post.IsImageOnDisk)
+                {
+                    System.IO.File.Delete(Path.Combine(Server.MapPath("~/images/"), $"post_{post.Id}"));
+                    post.IsImageOnDisk = false;
+                    post.ImageMimeType = "";
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Edit", new { id = id });
+        }
+
         [AllowAnonymous]
         public ActionResult ShowWebPost(int postid)
         {

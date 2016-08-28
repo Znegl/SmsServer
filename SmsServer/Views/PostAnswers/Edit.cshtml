@@ -41,6 +41,7 @@
                 <label class="control-label col-md-2">Nuværende billede:</label>
                 <div class="col-md-10">
                     <img src="@Url.Action("GetImage", "PostAnswers", new { id=Model.Id})" />
+                    @Html.ActionLink("Fjern billedet fra posten", "RemoveImage", new { id = Model.Id }, new { @class = "btn btn-danger" })
                 </div>
             </div>
         }

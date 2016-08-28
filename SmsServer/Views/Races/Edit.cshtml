@@ -103,6 +103,7 @@
                 <label class="control-label col-md-2">Nuværende logo:</label>
                 <div class="col-md-10">
                     <img src="@Url.Action("GetImage", "Races", new { id=Model.Id})" />
+                    @Html.ActionLink("Fjern logoet fra løbet", "RemoveImage", new { id = Model.Id }, new { @class = "btn btn-danger" })
                 </div>
             </div>
         }
@@ -119,6 +120,7 @@
                 <label class="control-label col-md-2">Nuværende logo:</label>
                 <div class="col-md-10">
                     <img src="@Url.Action("GetImage", "Races", new { id=Model.Id, logo=2})" />
+                    @Html.ActionLink("Fjern logoet fra løbet", "RemoveImage", new { id = Model.Id, logo=2 }, new { @class = "btn btn-danger" })
                 </div>
             </div>
         }
