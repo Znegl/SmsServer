@@ -16,6 +16,8 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(m => m.IsImageOnDisk)
+        @Html.HiddenFor(m => m.ImageMimeType)
 
         <div class="form-group">
             <label class="control-label col-md-2">Post titel</label>
